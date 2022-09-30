@@ -1,6 +1,7 @@
 import 'package:customer/const.dart';
 import 'package:customer/core/view/auth_view.dart';
 import 'package:customer/ui/main/main_screen.dart';
+import 'package:customer/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: primaryColor,
           scaffoldBackgroundColor: backgroundColor,
         ),
+        //home: const SplashScreen(),
         home: const MainScreen(),
       ),
     );

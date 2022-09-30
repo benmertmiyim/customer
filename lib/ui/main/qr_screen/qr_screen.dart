@@ -1,4 +1,6 @@
+import 'package:customer/core/view/auth_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QRScreen extends StatelessWidget {
@@ -6,29 +8,34 @@ class QRScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String uid = "t7d72Cpo88bVK59YL4MM0xIY1cl1";
-    const String nameSurname = "Mert Dönmez";
 
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          QrImage(
-            data: uid,
-            version: QrVersions.auto,
-          ),
-          const Text(uid),
-          const SizedBox(
-            height: 16,
-          ),
-          const Text(
-            nameSurname,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
-          ),
-        ],
-      ),
-    );
+    AuthView authView = Provider.of<AuthView>(context);
+
+    if(authView.customer != null){
+      return Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            QrImage(
+              data: authView.customer!.uid,
+              version: QrVersions.auto,
+            ),
+            Text(authView.customer!.uid),
+            const SizedBox(
+              height: 16,
+            ),
+            Text(
+              authView.customer!.nameSurname,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+            ),
+          ],
+        ),
+      );
+    }
+    else{
+      return Text("Something went wrong !");
+    }
   }
 }

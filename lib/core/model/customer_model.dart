@@ -1,8 +1,8 @@
 class Customer {
   final String uid;
-  String? userName= "username";
-  final String? email;
-  String? imageURL = "";
+  final String email;
+  final String nameSurname;
+  String? imageURL;
 
-  Customer(this.uid, this.userName, this.email, this.imageURL);
+  Customer({required this.uid, required this.email, required this.nameSurname, this.imageURL,});
 }
