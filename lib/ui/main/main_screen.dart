@@ -1,6 +1,7 @@
 import 'package:customer/const.dart';
 import 'package:customer/ui/main/history_screen/history_screen.dart';
 import 'package:customer/ui/main/home_screen/home_screen.dart';
+import 'package:customer/ui/main/notification_screen/notification_screen.dart';
 import 'package:customer/ui/main/profile_screen/profile_screen.dart';
 import 'package:customer/ui/main/qr_screen/qr_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +37,11 @@ class _MainScreenState extends State<MainScreen> {
           IconButton(
             icon: const Icon(LineIcons.bell),
             onPressed: () {
-              //Navigator.push(
-              //  context,
-              //  MaterialPageRoute(
-              //      builder: (context) => const NotificationPage()),
-              //);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>  const NotificationScreen(),),
+              );
             },
           ),
         ],

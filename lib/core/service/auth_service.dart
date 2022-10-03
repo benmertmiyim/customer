@@ -11,6 +11,7 @@ class AuthService implements AuthBase {
   @override
   Future<Customer?> getCurrentCustomer() async {
     try {
+      //firebaseAuth.signInWithEmailAndPassword(email: "benmertmiyim35@gmail.com", password: "159263.Mert");
       User? user = firebaseAuth.currentUser;
 
       if (user != null) {
