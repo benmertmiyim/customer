@@ -27,14 +27,19 @@ class AuthView with ChangeNotifier implements AuthBase {
 
   @override
   Future<Customer?> getCurrentCustomer() async {
-    _authProcess = AuthProcess.busy;
-    customer = await authService.getCurrentCustomer();
-    authProcess = AuthProcess.idle;
-
-    debugPrint(
-      "AuthView - Current Customer : $customer",
-    );
-
+    try {
+      authProcess = AuthProcess.busy;
+      customer = await authService.getCurrentCustomer();
+      debugPrint(
+        "AuthView - Current Customer : $customer",
+      );
+    } catch (e) {
+      debugPrint(
+        "AuthView - Exception - Get Current Customer : ${e.toString()}",
+      );
+    } finally {
+      authProcess = AuthProcess.idle;
+    }
     return customer;
   }
 }

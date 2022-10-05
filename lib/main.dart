@@ -1,7 +1,9 @@
 import 'package:customer/const.dart';
 import 'package:customer/core/view/auth_view.dart';
+import 'package:customer/core/view/park_view.dart';
 import 'package:customer/firebase_options.dart';
 import 'package:customer/locator.dart';
+import 'package:customer/ui/landing_screen.dart';
 import 'package:customer/ui/main/main_screen.dart';
 import 'package:customer/ui/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,6 +28,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => AuthView(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => ParkView(),
+        ),
       ],
       child: MaterialApp(
         title: title,
@@ -34,7 +39,6 @@ class MyApp extends StatelessWidget {
           primarySwatch: primaryColor,
           scaffoldBackgroundColor: backgroundColor,
         ),
-        //home: const SplashScreen(),
         home: const MainScreen(),
       ),
     );

@@ -16,7 +16,7 @@ class AuthService implements AuthBase {
 
       if (user != null) {
         CollectionReference customer =
-            FirebaseFirestore.instance.collection("customers");
+            firebaseFirestore.collection("customers");
         DocumentSnapshot documentSnapshot = await customer.doc(user.uid).get();
 
         if (documentSnapshot.exists) {
@@ -35,7 +35,7 @@ class AuthService implements AuthBase {
       return null;
     } catch (e) {
       debugPrint(
-        e.toString(),
+        "AuthService - Exception - Get Current Customer : ${e.toString()}",
       );
       return null;
     }

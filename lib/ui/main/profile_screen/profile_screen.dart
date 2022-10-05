@@ -15,11 +15,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthView authView = Provider.of<AuthView>(context);
 
-    if (authView.authProcess == AuthProcess.busy) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    } else {
+    if (authView.authProcess == AuthProcess.idle) {
       if (authView.customer != null) {
         return ListView(
           children: [
@@ -81,6 +77,12 @@ class ProfileScreen extends StatelessWidget {
       } else {
         return const WentWrongWidget();
       }
+
+    } else {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+
     }
   }
 }
