@@ -1,6 +1,7 @@
 import 'package:customer/const.dart';
 import 'package:customer/ui/main/history_screen/history_screen.dart';
 import 'package:customer/ui/main/home_screen/home_screen.dart';
+import 'package:customer/ui/main/map_screen/map_screen.dart';
 import 'package:customer/ui/main/notification_screen/notification_screen.dart';
 import 'package:customer/ui/main/profile_screen/profile_screen.dart';
 import 'package:customer/ui/main/qr_screen/qr_screen.dart';
@@ -20,8 +21,9 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _widgetOptions = const <Widget>[
     HomeScreen(),
+    MapScreen(),
     QRScreen(),
-    HistoryScreen(),
+    //HistoryScreen(),
     ProfileScreen(),
   ];
 
@@ -78,13 +80,17 @@ class _MainScreenState extends State<MainScreen> {
                   text: 'Home',
                 ),
                 GButton(
+                  icon: LineIcons.map,
+                  text: 'Map',
+                ),
+                GButton(
                   icon: LineIcons.qrcode,
                   text: 'QR',
                 ),
-                GButton(
-                  icon: LineIcons.history,
-                  text: 'History',
-                ),
+                //GButton(
+                //  icon: LineIcons.history,
+                //  text: 'History',
+                //),
                 GButton(
                   icon: LineIcons.user,
                   text: 'Profile',

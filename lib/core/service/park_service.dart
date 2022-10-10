@@ -13,7 +13,7 @@ class ParkService implements ParkBase {
       QuerySnapshot querySnapshot = await firebaseFirestore
           .collection("customers/${firebaseAuth.currentUser!.uid}/park_history").get();
       //QuerySnapshot querySnapshot = await firebaseFirestore
-      //    .collection("customers/jphPT4kJ0MBJBLzajNI0/park_history").get();
+      //    .collection("customers/jphPT4kJ0MBJBLzajNI0/park_history").get(); //TODO
       List<ParkHistory> list = [];
       for (int i = 0; i < querySnapshot.size; i++) {
         Map<String,dynamic> history = querySnapshot.docs[i].data() as Map<String, dynamic>;
