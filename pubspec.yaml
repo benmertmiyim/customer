@@ -8,7 +8,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.5
-  provider: ^6.0.3
+  provider: ^6.0.4
   get_it: ^7.2.0
   firebase_core: ^1.24.0
   firebase_auth: ^3.11.2
@@ -22,6 +22,7 @@ dependencies:
   geolocator: ^9.0.2
   after_layout: ^1.2.0
   carousel_slider: ^4.1.1
+  cached_network_image: ^3.2.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

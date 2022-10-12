@@ -1,5 +1,4 @@
 import 'package:customer/const.dart';
-import 'package:customer/ui/main/history_screen/history_screen.dart';
 import 'package:customer/ui/main/home_screen/home_screen.dart';
 import 'package:customer/ui/main/map_screen/map_screen.dart';
 import 'package:customer/ui/main/notification_screen/notification_screen.dart';
@@ -23,7 +22,6 @@ class _MainScreenState extends State<MainScreen> {
     HomeScreen(),
     MapScreen(),
     QRScreen(),
-    //HistoryScreen(),
     ProfileScreen(),
   ];
 
@@ -87,19 +85,15 @@ class _MainScreenState extends State<MainScreen> {
                   icon: LineIcons.qrcode,
                   text: 'QR',
                 ),
-                //GButton(
-                //  icon: LineIcons.history,
-                //  text: 'History',
-                //),
                 GButton(
                   icon: LineIcons.user,
                   text: 'Profile',
                 ),
               ],
               selectedIndex: _selectedIndex,
-              onTabChange: (index) {
+              onTabChange: (i) {
                 setState(() {
-                  _selectedIndex = index;
+                  _selectedIndex = i;
                 });
               },
             ),

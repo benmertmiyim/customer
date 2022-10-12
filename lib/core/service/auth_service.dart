@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customer/core/base/auth_base.dart';
 import 'package:customer/core/model/customer_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AuthService implements AuthBase {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
