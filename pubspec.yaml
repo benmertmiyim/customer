@@ -23,6 +23,8 @@ dependencies:
   after_layout: ^1.2.0
   carousel_slider: ^4.1.1
   cached_network_image: ^3.2.2
+  intl: ^0.17.0
+  flutter_slidable: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,10 +1,36 @@
+import 'package:customer/core/view/notification_view.dart';
+import 'package:customer/ui/main/notification_screen/components/notification_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    NotificationView notificationView = Provider.of<NotificationView>(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Notifications"),
+        centerTitle: true,
+      ),
+      body: notificationView.notificationProcess == NotificationProcess.idle
+          ? (notificationView.notificationList != null
+              ? ListView.builder(
+                  itemCount: notificationView.notificationList!.length,
+                  itemBuilder: (BuildContext context, int i) {
+                    return NotificationWidget(
+                      notificationView: notificationView,
+                        notificationModel:
+                            notificationView.notificationList![i],);
+                  })
+              : const Center(
+                  child: Text("You dont have notifications"),
+                ))
+          : const Center(
+              child: CircularProgressIndicator(),
+            ),
+    );
   }
 }

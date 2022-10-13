@@ -2,6 +2,7 @@ import 'package:customer/const.dart';
 import 'package:customer/core/view/auth_view.dart';
 import 'package:customer/core/view/banner_view.dart';
 import 'package:customer/core/view/location_view.dart';
+import 'package:customer/core/view/notification_view.dart';
 import 'package:customer/core/view/park_view.dart';
 import 'package:customer/firebase_options.dart';
 import 'package:customer/locator.dart';
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => LocationView(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NotificationView(),
         ),
       ],
       child: MaterialApp(
