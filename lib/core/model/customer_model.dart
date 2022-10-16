@@ -3,8 +3,8 @@ class Customer {
   final String email;
   final String nameSurname;
   final String phone;
+  String cardUserKey;
   String imageURL;
-  double balance;
   bool verified;
 
   Customer({
@@ -13,12 +13,12 @@ class Customer {
     required this.email,
     required this.nameSurname,
     this.verified = false,
-    this.balance = 0.0,
     this.imageURL = "", //TODO default image url add
+    this.cardUserKey = "",
   });
 
   @override
   String toString() {
-    return 'Customer{uid: $uid, email: $email, nameSurname: $nameSurname, phone: $phone, imageURL: $imageURL, balance: $balance, verified: $verified}';
+    return 'Customer{uid: $uid, email: $email, nameSurname: $nameSurname, phone: $phone, imageURL: $imageURL, verified: $verified, cardUserKey: $cardUserKey}';
   }
 }

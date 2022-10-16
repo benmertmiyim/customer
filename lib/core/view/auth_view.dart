@@ -42,4 +42,42 @@ class AuthView with ChangeNotifier implements AuthBase {
     }
     return customer;
   }
+
+  @override
+  Future<Customer?> signInWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      authProcess = AuthProcess.busy;
+      customer = await authService.signInWithEmailAndPassword(email, password);
+      debugPrint(
+        "AuthView - signInWithEmailAndPassword : $customer",
+      );
+    } catch (e) {
+      debugPrint(
+        "AuthView - Exception - signInWithEmailAndPassword : ${e.toString()}",
+      );
+    } finally {
+      authProcess = AuthProcess.idle;
+    }
+    return customer;
+  }
+
+  @override
+  Future signOut() async {
+    try {
+      authProcess = AuthProcess.busy;
+      await authService.signOut();
+      customer = null;
+      debugPrint(
+        "AuthView - signOut : $customer",
+      );
+    } catch (e) {
+      debugPrint(
+        "AuthView - Exception - signOut : ${e.toString()}",
+      );
+    } finally {
+      authProcess = AuthProcess.idle;
+    }
+    return customer;
+  }
 }

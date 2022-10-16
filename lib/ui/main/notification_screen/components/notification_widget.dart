@@ -15,22 +15,22 @@ class NotificationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          isThreeLine: true,
-          title: Text(notificationModel.title),
-          subtitle: Text(
-              "${notificationModel.message}\n${DateFormat('dd-MM-yyyy – kk:mm').format(notificationModel.dateTime)}"),
-          trailing: IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-              notificationView.deleteNotification(notificationModel.id);
-            },
-          ),
+    return Card(
+      shape: const BeveledRectangleBorder(borderRadius: BorderRadius.zero),
+      margin: EdgeInsets.zero,
+      elevation: 2,
+      child: ListTile(
+        isThreeLine: true,
+        title: Text(notificationModel.title),
+        subtitle: Text(
+            "${notificationModel.message}\n${DateFormat('dd-MM-yyyy – kk:mm').format(notificationModel.dateTime)}"),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            notificationView.deleteNotification(notificationModel.id);
+          },
         ),
-        const Divider(),
-      ],
+      ),
     );
   }
 }

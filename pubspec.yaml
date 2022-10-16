@@ -12,15 +12,16 @@ dependencies:
   get_it: ^7.2.0
   firebase_core: ^1.24.0
   firebase_auth: ^3.11.2
+  cloud_functions: ^3.3.9
   cloud_firestore: ^3.5.1
+  google_maps_flutter: ^2.2.1
+  http: ^0.13.5
+  geolocator: ^9.0.2
   google_nav_bar: ^5.0.6
   line_icons: ^2.0.1
   qr_flutter: ^4.0.0
   flutter_credit_card: ^3.0.4
-  google_maps_flutter: ^2.2.1
   package_info_plus: ^1.4.3+1
-  geolocator: ^9.0.2
-  after_layout: ^1.2.0
   carousel_slider: ^4.1.1
   cached_network_image: ^3.2.2
   intl: ^0.17.0

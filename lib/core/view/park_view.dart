@@ -14,7 +14,6 @@ class ParkView with ChangeNotifier implements ParkBase {
   ParkService parkService = locator<ParkService>();
   List<ParkHistory>? parkHistories;
 
-
   ParkProcess get parkProcess => _parkProcess;
 
   set parkProcess(ParkProcess value) {

@@ -1,6 +1,8 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:customer/const.dart';
 import 'package:customer/core/view/auth_view.dart';
 import 'package:customer/core/view/banner_view.dart';
+import 'package:customer/core/view/card_view.dart';
 import 'package:customer/core/view/location_view.dart';
 import 'package:customer/core/view/notification_view.dart';
 import 'package:customer/core/view/park_view.dart';
@@ -19,6 +21,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);//TODO
+
   runApp(const MyApp());
 }
 
@@ -31,6 +35,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => BannerView(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CardView(),
         ),
         ChangeNotifierProvider(
           create: (context) => AuthView(),

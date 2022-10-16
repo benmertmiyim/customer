@@ -11,7 +11,7 @@ class AuthService implements AuthBase {
   @override
   Future<Customer?> getCurrentCustomer() async {
     try {
-      firebaseAuth.signInWithEmailAndPassword(email: "benmertmiyim35@gmail.com", password: "159263.Mert");//TODO
+
       User? user = firebaseAuth.currentUser;
 
       if (user != null) {
@@ -27,8 +27,8 @@ class AuthService implements AuthBase {
             phone: map["phone"],
             nameSurname: map["name_surname"],
             verified: map["verified"] as bool,
-            balance: map["balance"].toDouble(),
             imageURL: map["image_url"],
+            cardUserKey: map["cardUserKey"] ?? "",
           );
         }
       }
@@ -39,5 +39,16 @@ class AuthService implements AuthBase {
       );
       return null;
     }
+  }
+
+  @override
+  Future<Customer?> signInWithEmailAndPassword(String email, String password) async {
+    await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+    return getCurrentCustomer();
+  }
+
+  @override
+  Future signOut() async {
+    await firebaseAuth.signOut();
   }
 }

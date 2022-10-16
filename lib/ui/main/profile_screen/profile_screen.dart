@@ -1,6 +1,5 @@
 import 'package:customer/core/view/auth_view.dart';
 import 'package:customer/ui/components/went_wrong_widget.dart';
-import 'package:customer/ui/main/add_balance_screen/add_balance_screen.dart';
 import 'package:customer/ui/main/history_screen/history_screen.dart';
 import 'package:customer/ui/main/other_screen/other_screen.dart';
 import 'package:customer/ui/main/payment_methods_screen/payment_methods_screen.dart';
@@ -25,7 +24,6 @@ class ProfileScreen extends StatelessWidget {
                 TileWidget(title: authView.customer!.nameSurname),
                 TileWidget(title: authView.customer!.email),
                 TileWidget(title: authView.customer!.phone),
-                TileWidget(title: "Balance",subTitle: authView.customer!.balance.toString(),),
                 TileWidget(
                   title: "Park History",
                   onClick: () {
@@ -33,16 +31,6 @@ class ProfileScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>  const HistoryScreen(),),
-                    );
-                  },
-                ),
-                TileWidget(
-                  title: "Add Balance",
-                  onClick: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>  const AddBalanceScreen(),),
                     );
                   },
                 ),
@@ -78,7 +66,9 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 TileWidget(
                   title: "Logout",
-                  onClick: () {},
+                  onClick: () {
+                    authView.signOut();
+                  },
                   isLogout: true,
                 ),
               ],
