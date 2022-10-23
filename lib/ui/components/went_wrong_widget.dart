@@ -10,11 +10,11 @@ class WentWrongWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: const [
           //Image.asset("assets/images/went_wrong.jpg"), //TODO ADD IMAGE
-          const SizedBox(height: 16,),
-          const Text("Something Went Wrong !",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,),),
-          const Text("Please try again later",style: TextStyle(fontSize: 16,color: Colors.black54,),),
+          SizedBox(height: 16,),
+          Text("Something Went Wrong !",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,),),
+          Text("Please try again later",style: TextStyle(fontSize: 16,color: Colors.black54,),),
         ],
       ),
     );

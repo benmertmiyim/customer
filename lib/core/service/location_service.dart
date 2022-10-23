@@ -17,6 +17,7 @@ class LocationService implements LocationBase {
       if(permission == LocationPermission.denied) {
         return false;
       }
+      return true;
     }
     return true;
   }

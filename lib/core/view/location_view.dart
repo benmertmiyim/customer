@@ -23,7 +23,7 @@ class LocationView with ChangeNotifier implements LocationBase {
   }
 
   LocationView(){
-    checkPermission();
+    //checkPermission();
     getLastCustomerLocation();
     getCurrentCustomerLocation();
   }
@@ -31,14 +31,11 @@ class LocationView with ChangeNotifier implements LocationBase {
   @override
   Future<bool> checkPermission() async {
     try {
-      locationProcess = LocationProcess.busy;
       permission = await locationService.checkPermission();
     } catch (e) {
       debugPrint(
         "LocationView - Exception - Check Permission : ${e.toString()}",
       );
-    } finally {
-      locationProcess = LocationProcess.idle;
     }
     return permission;
   }
@@ -47,6 +44,7 @@ class LocationView with ChangeNotifier implements LocationBase {
   Future<Position?> getCurrentCustomerLocation() async {
     try {
       locationProcess = LocationProcess.busy;
+      await checkPermission();
       position =  await locationService.getCurrentCustomerLocation();
       return position;
     } catch (e) {

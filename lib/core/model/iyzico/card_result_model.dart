@@ -1,5 +1,5 @@
-class CardDetail {
-  CardDetail({
+class CardResultModel {
+  CardResultModel({
     required this.cardToken,
     required this.cardAlias,
     required this.binNumber,
@@ -21,7 +21,7 @@ class CardDetail {
   final int cardBankCode;
   final String cardBankName;
 
-  factory CardDetail.fromJson(Map<String, dynamic> json) => CardDetail(
+  factory CardResultModel.fromJson(Map<String, dynamic> json) => CardResultModel(
     cardToken: json["cardToken"],
     cardAlias: json["cardAlias"],
     binNumber: json["binNumber"],
@@ -44,27 +44,9 @@ class CardDetail {
     "cardBankCode": cardBankCode,
     "cardBankName": cardBankName,
   };
-  factory CardDetail.fromMap(Map<String, dynamic> json) => CardDetail(
-    cardToken: json["cardToken"],
-    cardAlias: json["cardAlias"],
-    binNumber: json["binNumber"],
-    lastFourDigits: json["lastFourDigits"],
-    cardType: json["cardType"],
-    cardAssociation: json["cardAssociation"],
-    cardFamily: json["cardFamily"],
-    cardBankCode: json["cardBankCode"],
-    cardBankName: json["cardBankName"],
-  );
 
-  Map<String, dynamic> toMap() => {
-    "cardToken": cardToken,
-    "cardAlias": cardAlias,
-    "binNumber": binNumber,
-    "lastFourDigits": lastFourDigits,
-    "cardType": cardType,
-    "cardAssociation": cardAssociation,
-    "cardFamily": cardFamily,
-    "cardBankCode": cardBankCode,
-    "cardBankName": cardBankName,
-  };
+  @override
+  String toString() {
+    return 'CardResultModel{cardToken: $cardToken, cardAlias: $cardAlias, binNumber: $binNumber, lastFourDigits: $lastFourDigits, cardType: $cardType, cardAssociation: $cardAssociation, cardFamily: $cardFamily, cardBankCode: $cardBankCode, cardBankName: $cardBankName}';
+  }
 }

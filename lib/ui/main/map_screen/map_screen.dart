@@ -19,40 +19,28 @@ class _MapScreenState extends State<MapScreen> {
     String value =
     await DefaultAssetBundle.of(context).loadString('assets/map.json');
     _controller.setMapStyle(value);
+
   }
 
   @override
   Widget build(BuildContext context) {
     LocationView locationView = Provider.of<LocationView>(context);
-    return locationView.position != null
-        ? Stack(
-      children: <Widget>[
-        GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: LatLng(
-              locationView.position!.latitude,
-              locationView.position!.longitude,
-            ),
-            zoom: 16,
-          ),
-          myLocationEnabled: true,
-          myLocationButtonEnabled: true,
-          zoomControlsEnabled: false,
-          //compassEnabled: true,
+    return locationView.locationProcess == LocationProcess.idle
+        ? (locationView.permission ? GoogleMap(
+      onMapCreated: _onMapCreated,
+      initialCameraPosition: CameraPosition(
+        target: LatLng(
+          locationView.position!.latitude,
+          locationView.position!.longitude,
         ),
-        locationView.locationProcess == LocationProcess.busy
-            ? const Positioned(
-          top: 0,
-          bottom: 0,
-          right: 0,
-          left: 0,
-          child: CircularProgressIndicator(),
-        )
-            : Container(),
-      ],
+        zoom: 16,
+      ),
+      myLocationEnabled: true,
+      myLocationButtonEnabled: true,
+      zoomControlsEnabled: false,
+      //compassEnabled: true,
     )
-        : const Center(
+    : const Center(child: Text("you must allow location services"),))        : const Center(
       child: CircularProgressIndicator(),
     );
 

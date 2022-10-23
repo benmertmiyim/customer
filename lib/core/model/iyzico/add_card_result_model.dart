@@ -1,9 +1,15 @@
-class AddCard {
-  AddCard({
+import 'dart:convert';
+
+AddCardResult addCardResultFromJson(String str) => AddCardResult.fromJson(json.decode(str));
+
+String addCardResultToJson(AddCardResult data) => json.encode(data.toJson());
+
+class AddCardResult {
+  AddCardResult({
     required this.status,
     required this.locale,
     required this.systemTime,
-    this.email,
+    required this.email,
     required this.cardUserKey,
     required this.cardToken,
     required this.cardAlias,
@@ -19,7 +25,7 @@ class AddCard {
   final String status;
   final String locale;
   final int systemTime;
-  final String? email;
+  final String email;
   final String cardUserKey;
   final String cardToken;
   final String cardAlias;
@@ -31,7 +37,7 @@ class AddCard {
   final int cardBankCode;
   final String cardBankName;
 
-  factory AddCard.fromJson(Map<String, dynamic> json) => AddCard(
+  factory AddCardResult.fromJson(Map<String, dynamic> json) => AddCardResult(
     status: json["status"],
     locale: json["locale"],
     systemTime: json["systemTime"],
@@ -64,4 +70,9 @@ class AddCard {
     "cardBankCode": cardBankCode,
     "cardBankName": cardBankName,
   };
+
+  @override
+  String toString() {
+    return 'AddCardResult{status: $status, locale: $locale, systemTime: $systemTime, email: $email, cardUserKey: $cardUserKey, cardToken: $cardToken, cardAlias: $cardAlias, binNumber: $binNumber, lastFourDigits: $lastFourDigits, cardType: $cardType, cardAssociation: $cardAssociation, cardFamily: $cardFamily, cardBankCode: $cardBankCode, cardBankName: $cardBankName}';
+  }
 }

@@ -1,6 +1,11 @@
+import 'package:customer/core/model/iyzico/add_card_model.dart';
+import 'package:customer/core/model/iyzico/add_card_result_model.dart';
+import 'package:customer/core/model/iyzico/error_model.dart';
+import 'package:customer/core/view/card_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:provider/provider.dart';
 
 class AddCreditCardScreen extends StatefulWidget {
   const AddCreditCardScreen({Key? key}) : super(key: key);
@@ -31,6 +36,8 @@ class _AddCreditCardScreenState extends State<AddCreditCardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    CardView cardView = Provider.of<CardView>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Credit Card"),
@@ -105,31 +112,41 @@ class _AddCreditCardScreenState extends State<AddCreditCardScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    ElevatedButton(
-                      child: const Text(
-                        'Validate',
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          cardNumber = cardNumber.replaceAll(' ', '');
-                          String month = expiryDate.split("/")[0];
-                          String year = '20${expiryDate.split("/")[1]}';
-                          var body = {
-                            'cardHolderName': "Mert Dönmez",
-                            'cardNumber': "5890040000000016",
-                            'expireMonth': "06",
-                            'expireYear': "2025",
-                            'cvc': "123",
-                          };
-
-                        } else {
-                          print('invalid!');
-                        }
-                      },
-                    ),
+                    cardView.cardProcess != CardProcess.busy
+                        ? ElevatedButton(
+                            child: const Text(
+                              'Validate',
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                            onPressed: () async {
+                              //cardView.addCard(AddCardModel(cardAlias: "bişi", cardNumber: "5528790000000008", expireMonth: "12", expireYear: "2030", cardHolderName: "Mert Dönmez"));
+                              if (formKey.currentState!.validate()) {
+                                cardNumber = cardNumber.replaceAll(' ', '');
+                                String expireMonth = expiryDate.split("/")[0];
+                                String expireYear =
+                                    '20${expiryDate.split("/")[1]}';
+                                var result = await cardView.addCard(AddCardModel(
+                                    cardAlias: "test",
+                                    cardNumber: cardNumber,
+                                    expireMonth: expireMonth,
+                                    expireYear: expireYear,
+                                    cardHolderName: cardHolderName));
+                                if(result is AddCardResult) {
+                                  Navigator.of(context).pop();
+                                } else if (result is ErrorModel){
+                                  ErrorModel error = result;
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.errorMessage)));
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Something went wrong")));
+                                }
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("invalid")));
+                              }
+                            },
+                          )
+                        : const Center(child: CircularProgressIndicator()),
                   ],
                 ),
               ),

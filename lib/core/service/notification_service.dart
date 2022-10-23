@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customer/core/base/notification_base.dart';
-import 'package:customer/core/base/park_base.dart';
 import 'package:customer/core/model/notification_model.dart';
-import 'package:customer/core/model/park_history_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
