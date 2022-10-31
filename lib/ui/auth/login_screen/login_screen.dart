@@ -14,7 +14,7 @@ class LoginScreen extends StatelessWidget {
         child: const Text("Login"),
         onPressed: () {
           authView.signInWithEmailAndPassword(
-              "benmertmiyim35@gmail.com", "159263.Mert");
+              "ayseguleyrice@gmail.com", "ayseguleyrice");
         },
       ),
     ));
