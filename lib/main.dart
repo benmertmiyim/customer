@@ -1,15 +1,13 @@
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:customer/const.dart';
 import 'package:customer/core/view/auth_view.dart';
 import 'package:customer/core/view/banner_view.dart';
 import 'package:customer/core/view/card_view.dart';
 import 'package:customer/core/view/location_view.dart';
 import 'package:customer/core/view/notification_view.dart';
-import 'package:customer/core/view/park_view.dart';
+import 'package:customer/core/view/vendor_view.dart';
 import 'package:customer/firebase_options.dart';
 import 'package:customer/locator.dart';
 import 'package:customer/ui/landing_screen.dart';
-import 'package:customer/ui/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +20,6 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);//TODO
 
   runApp(const MyApp());
 }
@@ -41,10 +38,10 @@ class MyApp extends StatelessWidget {
           create: (context) => CardView(),
         ),
         ChangeNotifierProvider(
-          create: (context) => AuthView(),
+          create: (context) => VendorView(),
         ),
         ChangeNotifierProvider(
-          create: (context) => ParkView(),
+          create: (context) => AuthView(),
         ),
         ChangeNotifierProvider(
           create: (context) => LocationView(),

@@ -1,4 +1,4 @@
-import 'package:customer/core/view/park_view.dart';
+import 'package:customer/core/view/auth_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,17 +7,18 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ParkView parkView = Provider.of<ParkView>(context);
+    AuthView authView = Provider.of<AuthView>(context);
 
-    if(parkView.parkProcess == ParkProcess.idle){
-      if(parkView.parkHistories != null){
+    if (authView.authProcess == AuthProcess.idle) {
+      if (authView.parkHistories != null) {
         return const Text("Data Var");
-      }else{
+      } else {
         return const Text("Data yok");
       }
-    }else{
-      return const Center(child: CircularProgressIndicator(),);
+    } else {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
     }
-
   }
 }
