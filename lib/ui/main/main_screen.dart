@@ -72,6 +72,8 @@ class _MainScreenState extends State<MainScreen> {
               duration: const Duration(milliseconds: 400),
               tabBackgroundColor: primaryColor.withOpacity(.5),
               color: Colors.black,
+
+
               tabs: const [
                 GButton(
                   icon: LineIcons.home,

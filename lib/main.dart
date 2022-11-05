@@ -59,6 +59,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: primaryColor,
           scaffoldBackgroundColor: backgroundColor,
+          fontFamily: "Baloo2",
         ),
         home: const LandingScreen(),
       ),

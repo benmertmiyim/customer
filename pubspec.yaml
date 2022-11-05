@@ -27,6 +27,7 @@ dependencies:
   intl: ^0.17.0
   flutter_slidable: ^2.0.0
   pinput: ^2.2.12
+  animations: ^2.0.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -36,3 +37,23 @@ flutter:
   assets:
     - assets/images/
     - map.json
+    - assets/fonts/
+  fonts:
+    - family: Lobster
+      fonts:
+        - asset: assets/fonts/Lobster-Regular.ttf
+
+
+    - family: Baloo2
+      fonts:
+        - asset: assets/fonts/Baloo2-Regular.ttf
+        - asset: assets/fonts/Baloo2-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Baloo2-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Baloo2-Bold.ttf
+          weight: 700
+
+
+
+

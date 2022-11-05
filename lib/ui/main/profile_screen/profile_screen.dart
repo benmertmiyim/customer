@@ -13,11 +13,14 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     AuthView authView = Provider.of<AuthView>(context);
+    debugShowCheckedModeBanner: false;
 
     if (authView.authProcess == AuthProcess.idle) {
       if (authView.customer != null) {
         return ListView(
+
           children: [
             Column(
               children: [
@@ -25,7 +28,10 @@ class ProfileScreen extends StatelessWidget {
                 TileWidget(title: authView.customer!.email),
                 TileWidget(title: authView.customer!.phone),
                 TileWidget(
-                  title: "Park History",
+                  title: 'Park History',
+
+
+
                   onClick: () {
                     Navigator.push(
                       context,
@@ -35,7 +41,10 @@ class ProfileScreen extends StatelessWidget {
                   },
                 ),
                 TileWidget(
+
+
                   title: "Wallet History",
+
                   onClick: () {
                     Navigator.push(
                       context,

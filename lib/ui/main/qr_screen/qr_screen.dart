@@ -34,7 +34,8 @@ class QRScreen extends StatelessWidget {
               Text(
                 authView.customer!.nameSurname,
                 style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+
+                    const TextStyle(fontWeight: FontWeight.bold,color: Colors.black, fontSize: 28),
               ),
             ],
           ),
