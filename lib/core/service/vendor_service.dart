@@ -17,6 +17,7 @@ class VendorService implements VendorBase {
       for (int i = 0; i < querySnapshot.size; i++) {
         Map<String, dynamic> vendor =
         querySnapshot.docs[i].data() as Map<String, dynamic>;
+        debugPrint(vendor.toString());
         list.add(VendorModel.fromMap(vendor));
       }
       return list;

@@ -8,6 +8,7 @@ class VendorModel {
   final double rating;
   final bool active;
   final LatLng location;
+  final List<String> imgList;
 
   VendorModel({
     required this.vendorId,
@@ -16,6 +17,7 @@ class VendorModel {
     required this.rating,
     required this.active,
     required this.location,
+    required this.imgList,
   });
 
   factory VendorModel.fromMap(Map<String, dynamic> map) {
@@ -28,6 +30,7 @@ class VendorModel {
       rating: map['rating'].toDouble(),
       active: map['active'] as bool,
       location: latLng,
+      imgList: List.from(map['img_list']),
     );
   }
 }

@@ -7,7 +7,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     String email = "";
     String password = "";
 
@@ -15,8 +15,8 @@ class LoginScreen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            padding: EdgeInsets.only(left: 35, top: 130),
-            child: Text(
+            padding: const EdgeInsets.only(left: 35, top: 130),
+            child: const Text(
               'Welcome\nBack',
               style: TextStyle(color: Colors.white, fontSize: 33),
             ),
@@ -26,12 +26,12 @@ class LoginScreen extends StatelessWidget {
               padding: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * 0.5),
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 35, right: 35),
+                      margin: const EdgeInsets.only(left: 35, right: 35),
                       child: Column(
                         children: [
                           TextFormField(
@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                 )),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           TextFormField(
@@ -73,13 +73,13 @@ class LoginScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                 )),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 40,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 'Sign in',
                                 style: TextStyle(
                                     fontSize: 27, fontWeight: FontWeight.w700),
@@ -90,11 +90,11 @@ class LoginScreen extends StatelessWidget {
                                   if (value.authProcess == AuthProcess.idle) {
                                     return CircleAvatar(
                                       radius: 30,
-                                      backgroundColor: Color(0xff4c505b),
+                                      backgroundColor: const Color(0xff4c505b),
                                       child: IconButton(
                                           color: Colors.white,
                                           onPressed: () async {
-                                            if (_formKey.currentState!
+                                            if (formKey.currentState!
                                                 .validate()) {
                                               await value.signInWithEmailAndPassword(
                                                   email, password).then((customer){
@@ -110,18 +110,18 @@ class LoginScreen extends StatelessWidget {
 
                                             }
                                           },
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.arrow_forward,
                                           )),
                                     );
                                   } else {
-                                    return CircularProgressIndicator();
+                                    return const CircularProgressIndicator();
                                   }
                                 },
                               )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 40,
                           ),
                           Row(
@@ -131,7 +131,8 @@ class LoginScreen extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.pushNamed(context, 'register');
                                 },
-                                child: Text(
+                                style: const ButtonStyle(),
+                                child: const Text(
                                   'Sign Up',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -139,11 +140,10 @@ class LoginScreen extends StatelessWidget {
                                       color: Color(0xff4c505b),
                                       fontSize: 18),
                                 ),
-                                style: ButtonStyle(),
                               ),
                               TextButton(
                                   onPressed: () {},
-                                  child: Text(
+                                  child: const Text(
                                     'Forgot Password',
                                     style: TextStyle(
                                       decoration: TextDecoration.underline,
