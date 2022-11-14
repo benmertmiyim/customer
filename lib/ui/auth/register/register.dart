@@ -2,8 +2,8 @@ import 'package:customer/core/view/auth_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class LoginScreen extends StatelessWidget {
     String password = "";
 
     return Scaffold(
-      backgroundColor: const Color(0xffF7EBE1),
+      backgroundColor: const Color(0xffbdeef3),
       body:           Form(
         key: formKey,
         child: SingleChildScrollView(
@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.only(left: 100, top: 130, bottom: 30),
                 child: const Text(
-                  'Login Page',
+                  'Register Page',
                   style: TextStyle( fontSize: 33, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -68,14 +68,66 @@ class LoginScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           )),
                     ),
+
                     const SizedBox(
-                      height: 40,
+                      height: 30,
                     ),
+
+
+                    TextFormField(
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter again same password';
+                        } else {
+                          password = value;
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          fillColor: Colors.grey.shade100,
+                          filled: true,
+                          hintText: "Enter again same password",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                    ),
+
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    TextFormField(
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter phone number';
+                        } else {
+                          password = value;
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          fillColor: Colors.grey.shade100,
+                          filled: true,
+                          hintText: "Phone number ",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                    ),
+
+
+
+                    const SizedBox(
+                      height: 45,
+                    ),
+
+
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          'Sign in',
+                          'Register',
                           style: TextStyle(
                               fontSize: 27, fontWeight: FontWeight.w700),
                         ),
@@ -98,7 +150,7 @@ class LoginScreen extends StatelessWidget {
                                                 .showSnackBar(
                                               const SnackBar(
                                                 content: Text(
-                                                    'Email or passwrod is wrong!'),),
+                                                    'Email or password is wrong!'),),
                                             );
                                           }
                                         });
@@ -119,35 +171,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(
                       height: 40,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, 'register');
-                          },
-                          style: const ButtonStyle(),
-                          child: const Text(
-                            'Sign Up',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Color(0xff4c505b),
-                                fontSize: 18),
-                          ),
-                        ),
-                        TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Forgot Password',
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Color(0xff4c505b),
-                                fontSize: 18,
-                              ),
-                            )),
-                      ],
-                    )
+
                   ],
                 ),
               )

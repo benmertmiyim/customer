@@ -99,7 +99,7 @@ class CareView extends StatelessWidget {
                   child: Text(
                     "Reviews and rating with ParkIn",
                     style:
-                        TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold, height: 3),
                   ),
                 ),
               ),

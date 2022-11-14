@@ -73,16 +73,17 @@ class WelcomeView extends StatelessWidget {
               SlideTransition(
                 position: _welcomeFirstHalfAnimation,
                 child: Text(
-                  "Welcome",
-                  style: TextStyle(fontSize:30.0, fontWeight: FontWeight.bold),
+                  "",
+                  style: TextStyle(fontSize:30.0, fontWeight: FontWeight.bold,height: 0),
                 ),
               ),
               Padding(
                 padding:
                     EdgeInsets.only(left: 64, right: 64, top: 16, bottom: 30),
                 child: Text(
-                  "No more wasting time on finding a parking lot -do app",
+                  "No more wasting time on finding a parking lot",
                   textAlign: TextAlign.center,
+                  style: TextStyle(fontSize:20.0, fontWeight: FontWeight.bold,height: 0),
                 ),
               ),
             ],
