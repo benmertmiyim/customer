@@ -150,7 +150,7 @@ class RegisterScreen extends StatelessWidget {
                                                 .showSnackBar(
                                               const SnackBar(
                                                 content: Text(
-                                                    'Email or password is wrong!'),),
+                                                    'Email and password are required fields!'),),
                                             );
                                           }
                                         });
