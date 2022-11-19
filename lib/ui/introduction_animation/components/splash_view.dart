@@ -25,67 +25,67 @@ class _SplashViewState extends State<SplashView> {
     ));
     return SlideTransition(
       position: _introductionanimation,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Image.asset(
+                  'assets/images/otp.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  "Amazingly Otoparking System",
+                  style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold,),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 64),
+                child: Text(
+                  "Are you ready to meet the user-friendly, time-saving parking system with its simple interface?",
+                  textAlign: TextAlign.center,
 
-              height: 400.0,
-              width: MediaQuery.of(context).size.width,
-              child: Image.asset(
-                'assets/images/otp.png',
-                fit: BoxFit.cover,
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Text(
-                "Amazingly Otoparking System",
-                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold, color: Colors.blueAccent),
+              SizedBox(
+                height: 40,
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 64, right: 64),
-              child: Text(
-                "Are you ready to meet the user-friendly, time-saving parking system with its simple interface?",
-                textAlign: TextAlign.center,
-
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-              ),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).padding.bottom + 16),
-              child: InkWell(
-                onTap: () {
-                  widget.animationController.animateTo(0.2);
-                },
-                child: Container(
-                  height: 58,
-                  padding: EdgeInsets.only(
-                    left: 56.0,
-                    right: 56.0,
-                    top: 16,
-                    bottom: 16,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(38.0),
-                    color: Color(0xff132137),
-                  ),
-                  child: Text(
-                    "Let's begin",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).padding.bottom + 16),
+                child: InkWell(
+                  onTap: () {
+                    widget.animationController.animateTo(0.2);
+                  },
+                  child: Container(
+                    height: 58,
+                    padding: EdgeInsets.only(
+                      left: 56.0,
+                      right: 56.0,
+                      top: 16,
+                      bottom: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(38.0),
+                      color: Color(0xff132137),
+                    ),
+                    child: Text(
+                      "Let's begin",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

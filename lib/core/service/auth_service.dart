@@ -12,7 +12,6 @@ class AuthService implements AuthBase {
   @override
   Future<Customer?> getCurrentCustomer() async {
     try {
-
       User? user = firebaseAuth.currentUser;
 
       if (user != null) {
@@ -43,9 +42,16 @@ class AuthService implements AuthBase {
   }
 
   @override
-  Future<Customer?> signInWithEmailAndPassword(String email, String password) async {
-    await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-    return getCurrentCustomer();
+  Future<Object?> signInWithEmailAndPassword(
+      String email, String password) async {
+    try{
+      await firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return getCurrentCustomer();
+    }on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+
   }
 
   @override
@@ -55,17 +61,53 @@ class AuthService implements AuthBase {
 
   @override
   Future<List<ParkHistory>?> getParkHistories() async {
-    try{
+    try {
       QuerySnapshot querySnapshot = await firebaseFirestore
-          .collection("customers/${firebaseAuth.currentUser!.uid}/park_history").get();
+          .collection("customers/${firebaseAuth.currentUser!.uid}/park_history")
+          .get();
       List<ParkHistory> list = [];
       for (int i = 0; i < querySnapshot.size; i++) {
-        Map<String,dynamic> history = querySnapshot.docs[i].data() as Map<String, dynamic>;
+        Map<String, dynamic> history =
+            querySnapshot.docs[i].data() as Map<String, dynamic>;
         list.add(ParkHistory.fromMap(history));
       }
       return list;
-    }catch(e){
+    } catch (e) {
       return null;
     }
+  }
+
+  @override
+  Future<Object?> createUserWithEmailAndPassword(
+      String email, String password, String phone, String nameSurname) async {
+    try {
+      await firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      CollectionReference customers = firebaseFirestore.collection("customers");
+      await customers.doc(firebaseAuth.currentUser!.uid).set({
+        "cardUserKey": "",
+        "email": email,
+        "image_url": "",
+        "name_surname": nameSurname,
+        "phone": phone,
+        "verified": false,
+        "registered_date": Timestamp.now(),
+      });
+      return getCurrentCustomer();
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+    return null;
+  }
+
+  @override
+  Future<Object?> sendPasswordResetEmail(String email) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+      return true;
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+    return false;
   }
 }

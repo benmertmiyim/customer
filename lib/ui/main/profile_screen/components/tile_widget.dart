@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 class TileWidget extends StatelessWidget {
   final Function()? onClick;
   final String title;
-  final String? subTitle;
   final bool isLogout;
+  final bool isPhone;
 
   const TileWidget(
       {Key? key,
       this.onClick,
       required this.title,
       this.isLogout = false,
-      this.subTitle})
+      this.isPhone = false,})
       : super(key: key);
 
   @override
@@ -21,7 +21,6 @@ class TileWidget extends StatelessWidget {
       margin: EdgeInsets.zero,
       elevation: 2,
       child: ListTile(
-        subtitle: subTitle != null ? Text("${subTitle!} ₺") : null,
         title: Text(
           title,
           style: TextStyle(
@@ -31,11 +30,7 @@ class TileWidget extends StatelessWidget {
           ),
         ),
         onTap: onClick,
-        trailing: isLogout
-            ? const Icon(Icons.logout)
-            : onClick != null
-                ? const Icon(Icons.arrow_forward_ios_outlined)
-                : null,
+        trailing: isLogout ? Icon(Icons.logout) : (onClick != null ? (isPhone ? Icon(Icons.error,color: Colors.red,):Icon(Icons.arrow_forward_ios)) : null),
       ),
     );
   }

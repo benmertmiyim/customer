@@ -1,3 +1,4 @@
+import 'package:customer/core/view/auth_view.dart';
 import 'package:customer/ui/auth/login_screen/login_screen.dart';
 import 'package:customer/ui/introduction_animation/components/rating_view.dart';
 import 'package:customer/ui/introduction_animation/components/center_next_button.dart';
@@ -7,6 +8,7 @@ import 'package:customer/ui/introduction_animation/components/splash_view.dart';
 import 'package:customer/ui/introduction_animation/components/top_back_skip_view.dart';
 import 'package:customer/ui/introduction_animation/components/welcome_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class IntroductionAnimationScreen extends StatefulWidget {
   const IntroductionAnimationScreen({Key? key}) : super(key: key);
@@ -19,6 +21,7 @@ class IntroductionAnimationScreen extends StatefulWidget {
 class IntroductionAnimationScreenState
     extends State<IntroductionAnimationScreen> with TickerProviderStateMixin {
   AnimationController? _animationController;
+  late AuthView authView;
 
   @override
   void initState() {
@@ -26,6 +29,7 @@ class IntroductionAnimationScreenState
         AnimationController(vsync: this, duration: const Duration(seconds: 8));
     _animationController?.animateTo(0.0);
     super.initState();
+
   }
 
   @override
@@ -36,6 +40,7 @@ class IntroductionAnimationScreenState
 
   @override
   Widget build(BuildContext context) {
+    authView = Provider.of<AuthView>(context);
     return Scaffold(
       backgroundColor: const Color(0xffF7EBE1),
       body: ClipRect(
@@ -112,8 +117,6 @@ class IntroductionAnimationScreenState
   }
 
   void _signUpClick() {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-        (Route route) => false);
-  }
+    authView.authState = AuthState.signIn;
+      }
 }

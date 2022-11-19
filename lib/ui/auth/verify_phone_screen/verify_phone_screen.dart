@@ -79,19 +79,7 @@ class _VerifyPhoneScreenState extends State<VerifyPhoneScreen> {
                   child: const Text("Verify Phone Number"),
                 ),
               ),
-              Row(
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      "Edit Phone Number ?",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
+
             ],
           ),
         ),

@@ -2,14 +2,16 @@ import 'package:customer/core/view/auth_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     String email = "";
     String password = "";
+    String phone = "";
+    String nameSurname = "";
 
     return Scaffold(
       backgroundColor: const Color(0xffF7EBE1),
@@ -59,6 +61,26 @@ class LoginScreen extends StatelessWidget {
                         height: 30,
                       ),
                       TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter name and surname';
+                          }
+                          nameSurname = value;
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            fillColor: Colors.grey.shade100,
+                            filled: true,
+                            hintText: "Mert Dönmez",
+                            label: const Text("Name Surname"),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      TextFormField(
                         obscureText: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -77,13 +99,57 @@ class LoginScreen extends StatelessWidget {
                             )),
                       ),
                       const SizedBox(
-                        height: 40,
+                        height: 30,
+                      ),
+                      TextFormField(
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter again same password';
+                          } else {
+                            if (password != value) {
+                              return 'Please enter same password';
+                            }
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            fillColor: Colors.grey.shade100,
+                            filled: true,
+                            label: const Text("Enter again same password"),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter phone number';
+                          } else {
+                            phone = value;
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            fillColor: Colors.grey.shade100,
+                            filled: true,
+                            hintText: "05123456789",
+                            label: const Text("Phone number"),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 45,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            'Sign in',
+                            'Register',
                             style: TextStyle(
                                 fontSize: 27, fontWeight: FontWeight.w700),
                           ),
@@ -101,18 +167,26 @@ class LoginScreen extends StatelessWidget {
                                     onTap: () async {
                                       if (formKey.currentState!.validate()) {
                                         await value
-                                            .signInWithEmailAndPassword(
-                                                email, password)
-                                            .then((res) {
+                                            .createUserWithEmailAndPassword(
+                                                email,
+                                                password,
+                                                phone,
+                                                nameSurname)
+                                            .then((result) {
                                           if (value.customer == null) {
-                                            if (res is String) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(res),
-                                                ),
-                                              );
+                                            String message;
+                                            if (result is String) {
+                                              message = result;
+                                            } else {
+                                              message =
+                                                  "Something went wrong !";
                                             }
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(message),
+                                              ),
+                                            );
                                           }
                                         });
                                       }
@@ -136,17 +210,21 @@ class LoginScreen extends StatelessWidget {
                         height: 40,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          const Text(
+                            "Do you have an account ? ",
+                            style: TextStyle(
+                                color: Color(0xff4c505b), fontSize: 18),
+                          ),
                           Consumer<AuthView>(builder:
                               (BuildContext context, value, Widget? child) {
                             return TextButton(
                               onPressed: () {
-                                value.authState = AuthState.signUp;
+                                value.authState = AuthState.signIn;
                               },
                               style: const ButtonStyle(),
                               child: const Text(
-                                'Sign Up',
+                                'Sign In',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     decoration: TextDecoration.underline,
@@ -155,26 +233,11 @@ class LoginScreen extends StatelessWidget {
                               ),
                             );
                           }),
-                          Consumer<AuthView>(builder:
-                              (BuildContext context, value, Widget? child) {
-                            return TextButton(
-                                onPressed: () {
-                                  value.authState = AuthState.forgot;
-                                },
-                                child: const Text(
-                                  'Forgot Password',
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    color: Color(0xff4c505b),
-                                    fontSize: 18,
-                                  ),
-                                ));
-                          }),
                         ],
-                      )
+                      ),
                     ],
                   ),
-                ),
+                )
               ],
             ),
           ),

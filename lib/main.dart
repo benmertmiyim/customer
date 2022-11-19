@@ -7,6 +7,7 @@ import 'package:customer/core/view/notification_view.dart';
 import 'package:customer/core/view/vendor_view.dart';
 import 'package:customer/firebase_options.dart';
 import 'package:customer/locator.dart';
+import 'package:customer/ui/auth/verify_phone_screen/verify_phone_screen.dart';
 import 'package:customer/ui/landing_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

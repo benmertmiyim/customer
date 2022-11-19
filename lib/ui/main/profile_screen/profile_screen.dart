@@ -1,4 +1,5 @@
 import 'package:customer/core/view/auth_view.dart';
+import 'package:customer/ui/auth/verify_phone_screen/verify_phone_screen.dart';
 import 'package:customer/ui/components/went_wrong_widget.dart';
 import 'package:customer/ui/main/history_screen/history_screen.dart';
 import 'package:customer/ui/main/other_screen/other_screen.dart';
@@ -13,43 +14,43 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     AuthView authView = Provider.of<AuthView>(context);
-    debugShowCheckedModeBanner: false;
+    debugShowCheckedModeBanner:
+    false;
 
     if (authView.authProcess == AuthProcess.idle) {
       if (authView.customer != null) {
         return ListView(
-
           children: [
             Column(
               children: [
                 TileWidget(title: authView.customer!.nameSurname),
                 TileWidget(title: authView.customer!.email),
-                TileWidget(title: authView.customer!.phone),
+                TileWidget(title: authView.customer!.phone,isPhone: !authView.customer!.verified,onClick: !authView.customer!.verified ? (){Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const VerifyPhoneScreen(),
+                  ),
+                );}:null,),
                 TileWidget(
                   title: 'Park History',
-
-
-
                   onClick: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>  const HistoryScreen(),),
+                        builder: (context) => const HistoryScreen(),
+                      ),
                     );
                   },
                 ),
                 TileWidget(
-
-
                   title: "Wallet History",
-
                   onClick: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>  const WalletHistoryScreen(),),
+                        builder: (context) => const WalletHistoryScreen(),
+                      ),
                     );
                   },
                 ),
@@ -59,7 +60,8 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>  const PaymentMethodsScreen(),),
+                        builder: (context) => const PaymentMethodsScreen(),
+                      ),
                     );
                   },
                 ),
@@ -69,7 +71,8 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>  const OtherScreen(),),
+                        builder: (context) => const OtherScreen(),
+                      ),
                     );
                   },
                 ),
@@ -87,12 +90,10 @@ class ProfileScreen extends StatelessWidget {
       } else {
         return const WentWrongWidget();
       }
-
     } else {
       return const Center(
         child: CircularProgressIndicator(),
       );
-
     }
   }
 }

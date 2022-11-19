@@ -2,14 +2,13 @@ import 'package:customer/core/view/auth_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class ForgotPasswordScreen extends StatelessWidget {
+  const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     String email = "";
-    String password = "";
 
     return Scaffold(
       backgroundColor: const Color(0xffF7EBE1),
@@ -56,34 +55,13 @@ class LoginScreen extends StatelessWidget {
                             )),
                       ),
                       const SizedBox(
-                        height: 30,
-                      ),
-                      TextFormField(
-                        obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter password';
-                          } else {
-                            password = value;
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                            fillColor: Colors.grey.shade100,
-                            filled: true,
-                            label: const Text("Password"),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                      ),
-                      const SizedBox(
                         height: 40,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            'Sign in',
+                            'Reset Password',
                             style: TextStyle(
                                 fontSize: 27, fontWeight: FontWeight.w700),
                           ),
@@ -101,18 +79,24 @@ class LoginScreen extends StatelessWidget {
                                     onTap: () async {
                                       if (formKey.currentState!.validate()) {
                                         await value
-                                            .signInWithEmailAndPassword(
-                                                email, password)
-                                            .then((res) {
-                                          if (value.customer == null) {
-                                            if (res is String) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(res),
-                                                ),
-                                              );
-                                            }
+                                            .sendPasswordResetEmail(email)
+                                            .then((result) {
+                                          if (result is String) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(result),
+                                              ),
+                                            );
+                                          }else{
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                backgroundColor: Colors.green,
+                                                content: Text("We sent an email to reset your password."),
+                                              ),
+                                            );
+                                            value.authState = AuthState.signIn;
                                           }
                                         });
                                       }
@@ -135,43 +119,23 @@ class LoginScreen extends StatelessWidget {
                       const SizedBox(
                         height: 40,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Consumer<AuthView>(builder:
-                              (BuildContext context, value, Widget? child) {
-                            return TextButton(
-                              onPressed: () {
-                                value.authState = AuthState.signUp;
-                              },
-                              style: const ButtonStyle(),
-                              child: const Text(
-                                'Sign Up',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    color: Color(0xff4c505b),
-                                    fontSize: 18),
-                              ),
-                            );
-                          }),
-                          Consumer<AuthView>(builder:
-                              (BuildContext context, value, Widget? child) {
-                            return TextButton(
-                                onPressed: () {
-                                  value.authState = AuthState.forgot;
-                                },
-                                child: const Text(
-                                  'Forgot Password',
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    color: Color(0xff4c505b),
-                                    fontSize: 18,
-                                  ),
-                                ));
-                          }),
-                        ],
-                      )
+                      Consumer<AuthView>(builder:
+                          (BuildContext context, value, Widget? child) {
+                        return TextButton(
+                          onPressed: () {
+                            value.authState = AuthState.signIn;
+                          },
+                          style: const ButtonStyle(),
+                          child: const Text(
+                            'Or you can try again to sign in',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Color(0xff4c505b),
+                                fontSize: 18),
+                          ),
+                        );
+                      }),
                     ],
                   ),
                 ),

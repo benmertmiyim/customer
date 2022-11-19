@@ -17,6 +17,8 @@ dependencies:
   google_maps_flutter: ^2.2.1
   http: ^0.13.5
   geolocator: ^9.0.2
+  custom_map_markers: ^0.0.2+1
+  sliding_up_panel: ^2.0.0+1
   google_nav_bar: ^5.0.6
   line_icons: ^2.0.1
   qr_flutter: ^4.0.0
