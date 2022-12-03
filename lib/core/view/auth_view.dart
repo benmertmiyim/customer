@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customer/core/base/auth_base.dart';
 import 'package:customer/core/model/customer_model.dart';
 import 'package:customer/core/model/park_history_model.dart';
+import 'package:customer/core/model/request_model.dart';
 import 'package:customer/core/service/auth_service.dart';
 import 'package:customer/locator.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ enum AuthProcess {
   idle,
   busy,
 }
+
 enum AuthState {
   authorized,
   signIn,
@@ -178,5 +181,25 @@ class AuthView with ChangeNotifier implements AuthBase {
       authProcess = AuthProcess.idle;
     }
 
+  }
+
+  @override
+  Stream<QuerySnapshot>?  listenRequest() {
+    return authService.listenRequest();
+  }
+
+  @override
+  Future<bool> replyRequest(RequestModel requestModel, bool reply) async {
+    try {
+      authProcess = AuthProcess.busy;
+      return await authService.replyRequest(requestModel, reply);
+    } catch (e) {
+      debugPrint(
+        "AuthView - Exception - replyRequest : ${e.toString()}",
+      );
+      return false;
+    } finally {
+      authProcess = AuthProcess.idle;
+    }
   }
 }

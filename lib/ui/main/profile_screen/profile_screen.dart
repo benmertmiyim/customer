@@ -15,8 +15,6 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthView authView = Provider.of<AuthView>(context);
-    debugShowCheckedModeBanner:
-    false;
 
     if (authView.authProcess == AuthProcess.idle) {
       if (authView.customer != null) {

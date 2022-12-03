@@ -7,7 +7,8 @@ class VendorModel {
   final String name;
   final double rating;
   final bool active;
-  final LatLng location;
+  final double latitude;
+  final double longitude;
   final List<String> imgList;
 
   VendorModel({
@@ -16,20 +17,20 @@ class VendorModel {
     required this.name,
     required this.rating,
     required this.active,
-    required this.location,
+    required this.latitude,
+    required this.longitude,
     required this.imgList,
   });
 
   factory VendorModel.fromMap(Map<String, dynamic> map) {
-    GeoPoint geoPoint = map["location"] as GeoPoint;
-    LatLng latLng = LatLng(geoPoint.latitude, geoPoint.longitude);
     return VendorModel(
       vendorId: map['vendor_id'] as String,
       description: map['park_description'] as String,
       name: map['park_name'] as String,
       rating: map['rating'].toDouble(),
       active: map['active'] as bool,
-      location: latLng,
+      latitude: map['latitude'].toDouble(),
+      longitude: map['longitude'].toDouble(),
       imgList: List.from(map['img_list']),
     );
   }

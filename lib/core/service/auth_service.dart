@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customer/core/base/auth_base.dart';
 import 'package:customer/core/model/customer_model.dart';
 import 'package:customer/core/model/park_history_model.dart';
+import 'package:customer/core/model/request_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -44,14 +45,13 @@ class AuthService implements AuthBase {
   @override
   Future<Object?> signInWithEmailAndPassword(
       String email, String password) async {
-    try{
+    try {
       await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       return getCurrentCustomer();
-    }on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (e) {
       return e.message;
     }
-
   }
 
   @override
@@ -109,5 +109,47 @@ class AuthService implements AuthBase {
       return e.message;
     }
     return false;
+  }
+
+  @override
+  Stream<QuerySnapshot>? listenRequest() {
+    try {
+      return firebaseFirestore.collection(
+          "customers/${firebaseAuth.currentUser!.uid}/awaiting_approval").snapshots();
+    } on FirebaseException catch (e) {
+      debugPrint(
+        "AuthService - Exception - listenRequest : ${e.message}",
+      );
+      return null;
+    }
+  }
+
+  @override
+  Future<bool> replyRequest(RequestModel requestModel, bool reply) async {
+    try{
+      DocumentReference customerApproval = firebaseFirestore.collection("customers/${requestModel.uid}/awaiting_approval").doc(requestModel.requestId);
+      DocumentReference vendorApproval = firebaseFirestore.collection("vendors/${requestModel.vendorId}/awaiting_approval").doc(requestModel.requestId);
+      await customerApproval.delete();
+      await vendorApproval.delete();
+      RequestModel requestModelFinal = requestModel;
+      requestModelFinal.responseTime = Timestamp.now();
+
+      if(reply){
+        requestModelFinal.status = Status.processing;
+        CollectionReference customerCollectionReference = firebaseFirestore.collection("customers/${requestModel.uid}/active_park");
+        await customerCollectionReference.doc(requestModel.requestId).set(requestModel.toJson());
+        CollectionReference vendorCollectionReference = firebaseFirestore.collection("vendors/${requestModel.vendorId}/active_park");
+        await vendorCollectionReference.doc(requestModel.requestId).set(requestModel.toJson());
+      }else{
+        requestModelFinal.status = Status.canceled;
+        CollectionReference customerCollectionReference = firebaseFirestore.collection("customers/${requestModel.uid}/history");
+        await customerCollectionReference.doc(requestModel.requestId).set(requestModel.toJsonForClosed());
+        CollectionReference vendorCollectionReference = firebaseFirestore.collection("vendors/${requestModel.vendorId}/history");
+        await vendorCollectionReference.doc(requestModel.requestId).set(requestModel.toJsonForClosed());
+      }
+      return true;
+    }catch(e){
+    return false;
+    }
   }
 }

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:custom_map_markers/custom_map_markers.dart';
 import 'package:customer/core/view/location_view.dart';
 import 'package:customer/core/view/vendor_view.dart';
-import 'package:customer/ui/auth/login_screen/login_screen.dart';
 import 'package:customer/ui/main/map_screen/components/marker_widget.dart';
 import 'package:customer/ui/main/vendor_detail_screen/vendor_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +34,7 @@ class _MapScreenState extends State<MapScreen> {
 
     if (vendorView.vendors != null) {
       for (int i = 0; i < vendorView.vendors!.length; i++) {
+        LatLng latLng = LatLng(vendorView.vendors![i].latitude, vendorView.vendors![i].longitude);
         customMarkers.add(
           MarkerData(
             marker: Marker(
@@ -48,7 +48,7 @@ class _MapScreenState extends State<MapScreen> {
                   );
                 },
                 markerId: MarkerId(vendorView.vendors![i].vendorId),
-                position: vendorView.vendors![i].location),
+                position: latLng),
             child: MarkerWidget(vendorModel: vendorView.vendors![i]),
           ),
         );
