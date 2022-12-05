@@ -7,6 +7,8 @@ import 'package:customer/core/model/iyzico/add_card_model.dart';
 import 'package:customer/core/model/iyzico/add_card_result_model.dart';
 import 'package:customer/core/model/iyzico/error_model.dart';
 import 'package:customer/core/model/iyzico/get_cards_result_model.dart';
+import 'package:customer/core/model/iyzico/pay_model.dart';
+import 'package:customer/core/model/iyzico/pay_result_model.dart';
 import 'package:customer/core/service/auth_service.dart';
 import 'package:customer/locator.dart';
 import 'package:flutter/cupertino.dart';
@@ -95,7 +97,7 @@ class CardService implements CardBase {
   }
 
   @override
-  Future<Object?> delCard(String cardToken,String cardUserKey) async {
+  Future<Object?> delCard(String cardToken, String cardUserKey) async {
     var response = await http.post(
       Uri.parse("${functionsURL}delCard"),
       headers: <String, String>{
@@ -113,6 +115,47 @@ class CardService implements CardBase {
       ErrorModel error = ErrorModel.fromJson(result);
       debugPrint(error.toString());
       return error;
+    }
+  }
+
+  @override
+  Future<Object?> pay(PayModel payModel) async {
+    try {
+      var response = await http.post(
+        Uri.parse("${functionsURL}pay"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "price": payModel.price.toString(),
+          "cardUserKey": payModel.cardUserKey,
+          "cardToken": payModel.cardToken,
+          "uid": payModel.uid,
+          "name": payModel.name,
+          "surname": payModel.surname,
+          "gsmNumber": payModel.gsmNumber,
+          "email": payModel.email,
+          "identityNumber": payModel.identityNumber,
+          "address": payModel.address,
+          "ip": payModel.ip,
+          "city": payModel.city,
+          "country": payModel.country,
+        }),
+      );
+      var result = json.decode(response.body);
+      debugPrint(result.toString());
+      if (result["status"] == "success") {
+        PayResult payResult = PayResult.fromJson(result);
+        debugPrint(payResult.toString());
+        return payResult;
+      } else {
+        ErrorModel error = ErrorModel.fromJson(result);
+        debugPrint(error.toString());
+        return error;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
     }
   }
 }

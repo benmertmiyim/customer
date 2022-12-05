@@ -5,6 +5,7 @@ enum Status{
   canceled,
   approval,
   processing,
+  payment,
 }
 
 statusConvert(String status){
@@ -17,8 +18,11 @@ statusConvert(String status){
       return Status.approval;
     case "processing":
       return Status.processing;
+    case "payment":
+      return Status.payment;
   }
 }
+
 statusConvert2(Status status){
   switch(status){
     case Status.completed:
@@ -29,6 +33,8 @@ statusConvert2(Status status){
       return "approval";
     case Status.processing:
       return "processing";
+    case Status.payment:
+      return "payment";
   }
 }
 

@@ -4,6 +4,7 @@ import 'package:customer/ui/auth/login_screen/login_screen.dart';
 import 'package:customer/ui/auth/register_screen/register_screen.dart';
 import 'package:customer/ui/introduction_animation/introduction_animation_screen.dart';
 import 'package:customer/ui/main/main_screen.dart';
+import 'package:customer/ui/main/payment_screen/payment_screen.dart';
 import 'package:customer/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +28,11 @@ class LandingScreen extends StatelessWidget {
       } else if (authView.authState == AuthState.forgot) {
         return const ForgotPasswordScreen();
       } else {
-        return const MainScreen();
+        if(authView.activePayment != null){
+          return const PaymentScreen();
+        }else{
+          return const MainScreen();
+        }
       }
     }
   }

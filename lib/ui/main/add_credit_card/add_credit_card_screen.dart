@@ -19,6 +19,7 @@ class _AddCreditCardScreenState extends State<AddCreditCardScreen> {
   String expiryDate = '';
   String cardHolderName = '';
   String cvvCode = '';
+  String cardName = '';
   bool isCvvFocused = false;
   OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -81,6 +82,7 @@ class _AddCreditCardScreenState extends State<AddCreditCardScreen> {
                       cvvCode: cvvCode,
                       isHolderNameVisible: true,
                       isCardNumberVisible: true,
+                      isCardNameVisible: true,
                       isExpiryDateVisible: true,
                       cardHolderName: cardHolderName,
                       expiryDate: expiryDate,
@@ -88,6 +90,11 @@ class _AddCreditCardScreenState extends State<AddCreditCardScreen> {
                       cardNumberDecoration: InputDecoration(
                         labelText: 'Number',
                         hintText: 'XXXX XXXX XXXX XXXX',
+                        focusedBorder: border,
+                        enabledBorder: border,
+                      ),
+                      cardNameDecoration: InputDecoration(
+                        labelText: 'Card Name',
                         focusedBorder: border,
                         enabledBorder: border,
                       ),
@@ -108,45 +115,46 @@ class _AddCreditCardScreenState extends State<AddCreditCardScreen> {
                         enabledBorder: border,
                         labelText: 'Card Holder',
                       ),
-                      onCreditCardModelChange: onCreditCardModelChange,
+                      onCreditCardModelChange: onCreditCardModelChange, cardName: cardName,
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     cardView.cardProcess != CardProcess.busy
-                        ? ElevatedButton(
-                            child: const Text(
-                              'Validate',
-                              style: TextStyle(
-                                fontSize: 14,
+                        ? Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      width: double.maxFinite,
+                          child: ElevatedButton(
+                              child: const Text(
+                                'Add Card',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                            onPressed: () async {
-                              //cardView.addCard(AddCardModel(cardAlias: "bişi", cardNumber: "5528790000000008", expireMonth: "12", expireYear: "2030", cardHolderName: "Mert Dönmez"));
-                              if (formKey.currentState!.validate()) {
-                                cardNumber = cardNumber.replaceAll(' ', '');
-                                String expireMonth = expiryDate.split("/")[0];
-                                String expireYear =
-                                    '20${expiryDate.split("/")[1]}';
-                                var result = await cardView.addCard(AddCardModel(
-                                    cardAlias: "test",
-                                    cardNumber: cardNumber,
-                                    expireMonth: expireMonth,
-                                    expireYear: expireYear,
-                                    cardHolderName: cardHolderName));
-                                if(result is AddCardResult) {
-                                  Navigator.of(context).pop();
-                                } else if (result is ErrorModel){
-                                  ErrorModel error = result;
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.errorMessage)));
-                                }else{
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Something went wrong")));
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  cardNumber = cardNumber.replaceAll(' ', '');
+                                  String expireMonth = expiryDate.split("/")[0];
+                                  String expireYear =
+                                      '20${expiryDate.split("/")[1]}';
+                                  var result = await cardView.addCard(AddCardModel(
+                                      cardAlias: cardName,
+                                      cardNumber: cardNumber,
+                                      expireMonth: expireMonth,
+                                      expireYear: expireYear,
+                                      cardHolderName: cardHolderName));
+                                  if(result is AddCardResult) {
+                                    Navigator.of(context).pop();
+                                  } else if (result is ErrorModel){
+                                    ErrorModel error = result;
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.errorMessage)));
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Something went wrong")));
+                                  }
                                 }
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("invalid")));
-                              }
-                            },
-                          )
+                              },
+                            ),
+                        )
                         : const Center(child: CircularProgressIndicator()),
                   ],
                 ),
@@ -165,6 +173,7 @@ class _AddCreditCardScreenState extends State<AddCreditCardScreen> {
       cardHolderName = creditCardModel.cardHolderName;
       cvvCode = creditCardModel.cvvCode;
       isCvvFocused = creditCardModel.isCvvFocused;
+      cardName = creditCardModel.cardName;
     });
   }
 }
