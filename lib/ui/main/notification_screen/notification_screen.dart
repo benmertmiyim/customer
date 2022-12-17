@@ -16,7 +16,7 @@ class NotificationScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: notificationView.notificationProcess == NotificationProcess.idle
-          ? (notificationView.notificationList != null
+          ? (notificationView.notificationList!.isNotEmpty
               ? ListView.builder(
                   itemCount: notificationView.notificationList!.length,
                   itemBuilder: (BuildContext context, int i) {

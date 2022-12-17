@@ -11,7 +11,6 @@ class BannerService implements BannerBase {
     try {
       QuerySnapshot querySnapshot = await firebaseFirestore
           .collection("banners").where("active",isEqualTo: true).get();
-
       List<BannerModel> list = [];
       for (int i = 0; i < querySnapshot.size; i++) {
         Map<String,dynamic> bannerMap = querySnapshot.docs[i].data() as Map<String, dynamic>;

@@ -29,16 +29,18 @@ class PaymentScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(authView.activePayment!.customerName),
-              Text(authView.activePayment!.parkName),
+              Text(authView.paymentPark!.customerName),
+              Text(authView.paymentPark!.parkName),
               Text(
-                  "Start Time: ${DateFormat('dd-MM-yyyy – kk:mm').format(authView.activePayment!.requestTime.toDate())}"),
+                  "Start Time: ${DateFormat('dd-MM-yyyy – kk:mm').format(authView.paymentPark!.requestTime.toDate())}"),
               Text(
-                  "Closed Time: ${DateFormat('dd-MM-yyyy – kk:mm').format(authView.activePayment!.closedTime.toDate())}"),
-              Text("Start Price: ${authView.activePayment!.startPrice}"),
-              Text("Hourly Price: ${authView.activePayment!.hourlyPrice}"),
-              Text("Total Time: ${authView.activePayment!.totalTime}"),
-              Text("Total Price: ${authView.activePayment!.totalPrice}"),
+                  "Closed Time: ${DateFormat('dd-MM-yyyy – kk:mm').format(authView.paymentPark!.closedTime!.toDate())}"),
+              Text("Start Price: ${authView.paymentPark!.startPrice}"),
+              Text("Hourly Price: ${authView.paymentPark!.hourlyPrice}"),
+              Text("Total Time: ${authView.paymentPark!.totalTime}"),
+              Text("Total Price: ${authView.paymentPark!.totalPrice}"),
+              const Divider(),
+              const Divider(),
               const Text(
                 "PAYMENT METHOD",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
@@ -56,53 +58,61 @@ class PaymentScreen extends StatelessWidget {
               const SizedBox(
                 height: 32,
               ),
-              cardView.cardProcess == CardProcess.idle ? ElevatedButton(
-                onPressed: () async {
-                  PayModel payModel = PayModel(
-                      price: authView.activePayment!.totalPrice!,
-                      cardUserKey: authView.customer!.cardUserKey,
-                      cardToken: cardView.selectedCard!.cardToken,
-                      uid: authView.customer!.uid,
-                      name: authView.customer!.nameSurname,
-                      surname: authView.customer!.nameSurname,
-                      gsmNumber: authView.customer!.phone,
-                      email: authView.customer!.email,
-                      identityNumber: "11111111111",
-                      address: "Adress",
-                      ip: "85.34.78.112",
-                      city: "Izmir",
-                      country: "Turkey");
-                  var res = await cardView.pay(payModel);
+              cardView.cardProcess == CardProcess.idle
+                  ? ElevatedButton(
+                      onPressed: () async {
+                        if (cardView.selectedCard != null) {
+                          PayModel payModel = PayModel(
+                              price: authView.paymentPark!.totalPrice!,
+                              cardUserKey: authView.customer!.cardUserKey,
+                              cardToken: cardView.selectedCard!.cardToken,
+                              uid: authView.customer!.uid,
+                              name: authView.customer!.nameSurname,
+                              surname: authView.customer!.nameSurname,
+                              gsmNumber: authView.customer!.phone,
+                              email: authView.customer!.email,
+                              identityNumber: "11111111111",
+                              address: "Adress",
+                              ip: "85.34.78.112",
+                              city: "Izmir",
+                              country: "Turkey");
+                          var res = await cardView.pay(payModel);
 
-                  if(res is PayResult){
-                    bool result = await authView.pay(res, authView.activePayment!);
-                    if(!result){
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(
-                        SnackBar(
-                          content: Text("Something Went Wrong"),
-                        ),
-                      );
-                    }
-                  }else if( res is ErrorModel) {
-                    ErrorModel error = res as ErrorModel;
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(
-                      SnackBar(
-                        content: Text(error.errorMessage),
-                      ),
-                    );
-                  }else{
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(
-                      const SnackBar(
-                        content: Text("Something Went Wrong"),
-                      ),
-                    );
-                  }
-                },
-                child: const Text("Pay Now"),
-              ): const CircularProgressIndicator(),
+                          if (res is PayResult) {
+                            bool result =
+                                await authView.pay(res, authView.paymentPark!);
+                            if (!result) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Something Went Wrong"),
+                                ),
+                              );
+                            }
+                          } else if (res is ErrorModel) {
+                            ErrorModel error = res as ErrorModel;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(error.errorMessage),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Something Went Wrong"),
+                              ),
+                            );
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Choose payment method."),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text("Pay Now"),
+                    )
+                  : const CircularProgressIndicator(),
             ],
           ),
         ),

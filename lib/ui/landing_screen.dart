@@ -28,7 +28,7 @@ class LandingScreen extends StatelessWidget {
       } else if (authView.authState == AuthState.forgot) {
         return const ForgotPasswordScreen();
       } else {
-        if(authView.activePayment != null){
+        if(authView.paymentPark != null){
           return const PaymentScreen();
         }else{
           return const MainScreen();

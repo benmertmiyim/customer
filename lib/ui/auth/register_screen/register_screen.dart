@@ -1,5 +1,6 @@
 import 'package:customer/core/view/auth_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -48,6 +49,8 @@ class RegisterScreen extends StatelessWidget {
                           }
                           return null;
                         },
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                             fillColor: Colors.grey.shade100,
                             filled: true,
@@ -68,6 +71,8 @@ class RegisterScreen extends StatelessWidget {
                           nameSurname = value;
                           return null;
                         },
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                             fillColor: Colors.grey.shade100,
                             filled: true,
@@ -90,6 +95,8 @@ class RegisterScreen extends StatelessWidget {
                           }
                           return null;
                         },
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                             fillColor: Colors.grey.shade100,
                             filled: true,
@@ -113,6 +120,8 @@ class RegisterScreen extends StatelessWidget {
                           }
                           return null;
                         },
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                             fillColor: Colors.grey.shade100,
                             filled: true,
@@ -126,17 +135,22 @@ class RegisterScreen extends StatelessWidget {
                       ),
                       TextFormField(
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.length < 13) {
                             return 'Please enter phone number';
                           } else {
                             phone = value;
                           }
                           return null;
                         },
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.done,
+                        controller:
+                            MaskedTextController(mask: '+903333333333'),
                         decoration: InputDecoration(
                             fillColor: Colors.grey.shade100,
                             filled: true,
-                            hintText: "05123456789",
                             label: const Text("Phone number"),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),

@@ -27,6 +27,10 @@ class NotificationView with ChangeNotifier implements NotificationBase {
     getNotifications();
   }
 
+  void logout(){
+    notificationList = null;
+  }
+
 
   @override
   Future<List<NotificationModel>?> getNotifications() async {

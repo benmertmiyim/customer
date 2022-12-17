@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customer/core/base/auth_base.dart';
 import 'package:customer/core/model/customer_model.dart';
 import 'package:customer/core/model/iyzico/pay_result_model.dart';
 import 'package:customer/core/model/park_history_model.dart';
-import 'package:customer/core/model/request_model.dart';
+import 'package:customer/core/model/rate_model.dart';
 import 'package:customer/core/service/auth_service.dart';
 import 'package:customer/locator.dart';
 import 'package:flutter/material.dart';
@@ -27,15 +29,12 @@ class AuthView with ChangeNotifier implements AuthBase {
   AuthState _authState = AuthState.landing;
   AuthService authService = locator<AuthService>();
   Customer? customer;
-  List<ParkHistory> parkHistories = [];
-  ParkHistory? _activePayment;
-
-  ParkHistory? get activePayment => _activePayment;
-
-  set activePayment(ParkHistory? value) {
-    _activePayment = value;
-    notifyListeners();
-  }
+  List<ParkHistory> parkHistory = [];
+  List<ParkHistory> notRatedParkHistory = [];
+  ParkHistory? activePark;
+  ParkHistory? approvalPark;
+  ParkHistory? paymentPark;
+  StreamSubscription? parkListener;
 
   AuthProcess get authProcess => _authProcess;
 
@@ -53,24 +52,6 @@ class AuthView with ChangeNotifier implements AuthBase {
 
   AuthView() {
     getCurrentCustomer();
-    getParkHistories();
-  }
-
-  @override
-  Stream<QuerySnapshot> getParkHistories() {
-    var querySnapshot = authService.getParkHistories();
-    querySnapshot.forEach((element) {
-      List<QueryDocumentSnapshot> queryDocumentSnapshot = element.docs;
-      queryDocumentSnapshot.forEach((element) {
-        Map<String, dynamic> history = element.data() as Map<String, dynamic>;
-        ParkHistory parkHistory = ParkHistory.fromJson(history);
-        parkHistories.add(parkHistory);
-        if (parkHistory.status == Status.payment) {
-          activePayment = parkHistory;
-        }
-      });
-    });
-    return querySnapshot;
   }
 
   @override
@@ -78,9 +59,9 @@ class AuthView with ChangeNotifier implements AuthBase {
     try {
       authProcess = AuthProcess.busy;
       customer = await authService.getCurrentCustomer();
-      await Future.delayed(const Duration(seconds: 2)); //TODO
       if (customer != null) {
         authState = AuthState.authorized;
+        getParks();
       } else {
         authState = AuthState.intro;
       }
@@ -107,6 +88,7 @@ class AuthView with ChangeNotifier implements AuthBase {
         customer = res;
         if (customer != null) {
           authState = AuthState.authorized;
+          getParks();
         } else {
           authState = AuthState.signIn;
         }
@@ -133,6 +115,7 @@ class AuthView with ChangeNotifier implements AuthBase {
       await authService.signOut();
       customer = null;
       authState = AuthState.intro;
+      parkListener!.cancel();
       debugPrint(
         "AuthView - signOut : $customer",
       );
@@ -156,6 +139,7 @@ class AuthView with ChangeNotifier implements AuthBase {
       if (result is Customer) {
         customer = result;
         authState = AuthState.authorized;
+        getParks();
       } else {
         return result;
       }
@@ -183,7 +167,6 @@ class AuthView with ChangeNotifier implements AuthBase {
       } else {
         return result;
       }
-      return null;
     } catch (e) {
       debugPrint(
         "AuthView - Exception - createUserWithEmailAndPassword : ${e.toString()}",
@@ -195,15 +178,11 @@ class AuthView with ChangeNotifier implements AuthBase {
   }
 
   @override
-  Stream<QuerySnapshot>? listenRequest() {
-    return authService.listenRequest();
-  }
-
-  @override
-  Future<bool> replyRequest(RequestModel requestModel, bool reply) async {
+  Future<bool> replyRequest(ParkHistory parkHistory, bool reply) async {
     try {
+
       authProcess = AuthProcess.busy;
-      return await authService.replyRequest(requestModel, reply);
+      return await authService.replyRequest(parkHistory, reply);
     } catch (e) {
       debugPrint(
         "AuthView - Exception - replyRequest : ${e.toString()}",
@@ -220,7 +199,6 @@ class AuthView with ChangeNotifier implements AuthBase {
       authProcess = AuthProcess.busy;
       bool res = await authService.pay(payResult, history);
       if (res) {
-        activePayment = null;
         return true;
       }
       return false;
@@ -232,5 +210,63 @@ class AuthView with ChangeNotifier implements AuthBase {
     } finally {
       authProcess = AuthProcess.idle;
     }
+  }
+
+
+  @override
+  Stream<QuerySnapshot<Object?>> getParks() {
+    var querySnapshot = authService.getParks();
+    debugPrint("Girdi Buraya");
+    parkListener = querySnapshot.listen((event) {
+      activePark = null;
+      approvalPark = null;
+      paymentPark = null;
+      parkHistory = [];
+      notRatedParkHistory = [];
+
+      for (var doc in event.docs) {
+        Map<String, dynamic> map = doc.data() as Map<String, dynamic>;
+        ParkHistory park;
+        if (map["status"] == "processing") {
+          park = ParkHistory.fromJsonForProcessing(map);
+          activePark = park;
+        } else if (map["status"] == "payment") {
+          park = ParkHistory.fromJsonForPay(map);
+          paymentPark = park;
+        } else if (map["status"] == "approval") {
+          park = ParkHistory.fromJsonForRequest(map);
+          approvalPark = park;
+        } else if (map["status"] == "canceled") {
+          park = ParkHistory.fromJsonForCanceled(map);
+        } else {
+          park = ParkHistory.fromJsonForHistory(map);
+          if(!park.rated){
+            notRatedParkHistory.add(park);
+          }
+        }
+        parkHistory.add(park);
+
+      }
+      notifyListeners();
+
+    });
+    return querySnapshot;
+  }
+
+  @override
+  Future<bool> ratePark(ParkHistory parkHistory, RateModel rateModel) async {
+    try {
+      authProcess = AuthProcess.busy;
+      await authService.ratePark( parkHistory, rateModel);
+      return true;
+    } catch (e) {
+      debugPrint(
+        "AuthView - Exception - ratePark : ${e.toString()}",
+      );
+      return false;
+    } finally {
+      authProcess = AuthProcess.idle;
+    }
+
   }
 }

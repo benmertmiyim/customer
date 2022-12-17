@@ -34,7 +34,8 @@ class _MapScreenState extends State<MapScreen> {
 
     if (vendorView.vendors != null) {
       for (int i = 0; i < vendorView.vendors!.length; i++) {
-        LatLng latLng = LatLng(vendorView.vendors![i].latitude, vendorView.vendors![i].longitude);
+        LatLng latLng = LatLng(
+            vendorView.vendors![i].latitude, vendorView.vendors![i].longitude);
         customMarkers.add(
           MarkerData(
             marker: Marker(
@@ -62,21 +63,22 @@ class _MapScreenState extends State<MapScreen> {
                 builder: (BuildContext context, Set<Marker>? markers) {
                   if (markers == null) {
                     return const Center(child: CircularProgressIndicator());
-                  }
-                  return GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                        locationView.position!.latitude,
-                        locationView.position!.longitude,
+                  } else {
+                    return GoogleMap(
+                      onMapCreated: _onMapCreated,
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(
+                          locationView.position!.latitude,
+                          locationView.position!.longitude,
+                        ),
+                        zoom: 16,
                       ),
-                      zoom: 16,
-                    ),
-                    markers: markers,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: true,
-                    zoomControlsEnabled: false,
-                  );
+                      markers: markers,
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: true,
+                      zoomControlsEnabled: false,
+                    );
+                  }
                 },
               )
             : const Center(

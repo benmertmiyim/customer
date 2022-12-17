@@ -1,6 +1,7 @@
 import 'package:customer/core/model/iyzico/add_card_model.dart';
 import 'package:customer/core/model/iyzico/add_card_result_model.dart';
 import 'package:customer/core/model/iyzico/error_model.dart';
+import 'package:customer/core/view/auth_view.dart';
 import 'package:customer/core/view/card_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
@@ -39,6 +40,7 @@ class _AddCreditCardScreenState extends State<AddCreditCardScreen> {
   @override
   Widget build(BuildContext context) {
     CardView cardView = Provider.of<CardView>(context);
+    AuthView authView = Provider.of<AuthView>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -144,6 +146,7 @@ class _AddCreditCardScreenState extends State<AddCreditCardScreen> {
                                       expireYear: expireYear,
                                       cardHolderName: cardHolderName));
                                   if(result is AddCardResult) {
+                                    await authView.getCurrentCustomer();
                                     Navigator.of(context).pop();
                                   } else if (result is ErrorModel){
                                     ErrorModel error = result;

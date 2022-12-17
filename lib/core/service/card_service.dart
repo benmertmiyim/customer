@@ -143,10 +143,8 @@ class CardService implements CardBase {
         }),
       );
       var result = json.decode(response.body);
-      debugPrint(result.toString());
       if (result["status"] == "success") {
         PayResult payResult = PayResult.fromJson(result);
-        debugPrint(payResult.toString());
         return payResult;
       } else {
         ErrorModel error = ErrorModel.fromJson(result);

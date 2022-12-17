@@ -1,13 +1,13 @@
-import 'package:customer/core/model/request_model.dart';
+import 'package:customer/core/model/park_history_model.dart';
 import 'package:customer/core/view/auth_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class RequestScreen extends StatelessWidget {
-  final RequestModel requestModel;
+  final ParkHistory parkHistory;
 
-  const RequestScreen({Key? key, required this.requestModel}) : super(key: key);
+  const RequestScreen({Key? key, required this.parkHistory}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +19,23 @@ class RequestScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            requestModel.customerName,
+            parkHistory.customerName,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           Text(
-            "Park name: ${requestModel.parkName}",
+            "Park name: ${parkHistory.parkName}",
             style: const TextStyle(fontSize: 20),
           ),
           Text(
-            "Start time: ${DateFormat('dd-MM-yyyy kk:mm').format((requestModel.requestTime).toDate())}",
+            "Start time: ${DateFormat('dd-MM-yyyy kk:mm').format((parkHistory.requestTime).toDate())}",
             style: const TextStyle(fontSize: 18),
           ),
           Text(
-            "Start price: ${requestModel.startPrice}₺",
+            "Start price: ${parkHistory.startPrice}₺",
             style: const TextStyle(fontSize: 18),
           ),
           Text(
-            "Hourly price: ${requestModel.hourlyPrice}₺",
+            "Hourly price: ${parkHistory.hourlyPrice}₺",
             style: const TextStyle(fontSize: 18),
           ),
           const SizedBox(
@@ -45,7 +45,7 @@ class RequestScreen extends StatelessWidget {
             width: double.maxFinite,
             child: ElevatedButton(
               onPressed: () {
-                authView.replyRequest(requestModel, true);
+                authView.replyRequest(parkHistory, true);
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
               child: const Text("Accept"),
@@ -55,7 +55,7 @@ class RequestScreen extends StatelessWidget {
             width: double.maxFinite,
             child: ElevatedButton(
               onPressed: () {
-                authView.replyRequest(requestModel, false);
+                authView.replyRequest(parkHistory, false);
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               child: const Text("Rejection"),

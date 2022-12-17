@@ -5,11 +5,13 @@ class TileWidget extends StatelessWidget {
   final String title;
   final bool isLogout;
   final bool isPhone;
+  final String? subTitle;
 
   const TileWidget(
       {Key? key,
       this.onClick,
       required this.title,
+        this.subTitle,
       this.isLogout = false,
       this.isPhone = false,})
       : super(key: key);
@@ -21,12 +23,18 @@ class TileWidget extends StatelessWidget {
       margin: EdgeInsets.zero,
       elevation: 2,
       child: ListTile(
+        subtitle: subTitle != null ? Text(
+          subTitle ?? "",
+          style: const TextStyle(
+            color: Colors.black54,
+          ),
+        ):null,
         title: Text(
           title,
           style: TextStyle(
             color: isLogout
                 ? Colors.red
-                : (onClick != null ? Colors.black : Colors.black54),
+                : Colors.black,
           ),
         ),
         onTap: onClick,

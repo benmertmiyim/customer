@@ -23,7 +23,6 @@ class CardView with ChangeNotifier implements CardBase {
   String? cardUserKey;
   CardResultModel? _selectedCard;
 
-
   CardResultModel? get selectedCard => _selectedCard;
 
   set selectedCard(CardResultModel? value) {
@@ -40,6 +39,12 @@ class CardView with ChangeNotifier implements CardBase {
 
   CardView(){
     getCards();
+  }
+
+  void logout(){
+    getCardsResultModel = null;
+    cardUserKey = null;
+    _selectedCard = null;
   }
 
   @override

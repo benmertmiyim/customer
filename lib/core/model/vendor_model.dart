@@ -3,7 +3,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class VendorModel {
   final String vendorId;
-  final String description;
   final String name;
   final double rating;
   final bool active;
@@ -13,7 +12,6 @@ class VendorModel {
 
   VendorModel({
     required this.vendorId,
-    required this.description,
     required this.name,
     required this.rating,
     required this.active,
@@ -25,7 +23,6 @@ class VendorModel {
   factory VendorModel.fromMap(Map<String, dynamic> map) {
     return VendorModel(
       vendorId: map['vendor_id'] as String,
-      description: map['park_description'] as String,
       name: map['park_name'] as String,
       rating: map['rating'].toDouble(),
       active: map['active'] as bool,

@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customer/core/base/auth_base.dart';
 import 'package:customer/core/model/customer_model.dart';
+import 'package:customer/core/model/enums.dart';
 import 'package:customer/core/model/iyzico/pay_result_model.dart';
 import 'package:customer/core/model/park_history_model.dart';
-import 'package:customer/core/model/request_model.dart';
+import 'package:customer/core/model/rate_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -61,13 +62,6 @@ class AuthService implements AuthBase {
   }
 
   @override
-  Stream<QuerySnapshot> getParkHistories() {
-    return firebaseFirestore
-        .collection("customers/${firebaseAuth.currentUser!.uid}/history")
-        .snapshots();
-  }
-
-  @override
   Future<Object?> createUserWithEmailAndPassword(
       String email, String password, String phone, String nameSurname) async {
     try {
@@ -87,7 +81,6 @@ class AuthService implements AuthBase {
     } on FirebaseAuthException catch (e) {
       return e.message;
     }
-    return null;
   }
 
   @override
@@ -98,65 +91,33 @@ class AuthService implements AuthBase {
     } on FirebaseAuthException catch (e) {
       return e.message;
     }
-    return false;
   }
 
   @override
-  Stream<QuerySnapshot>? listenRequest() {
+  Future<bool> replyRequest(ParkHistory parkHistory, bool reply) async {
     try {
-      return firebaseFirestore
-          .collection(
-              "customers/${firebaseAuth.currentUser!.uid}/awaiting_approval")
-          .snapshots();
-    } on FirebaseException catch (e) {
-      debugPrint(
-        "AuthService - Exception - listenRequest : ${e.message}",
-      );
-      return null;
-    }
-  }
-
-  @override
-  Future<bool> replyRequest(RequestModel requestModel, bool reply) async {
-    try {
-      DocumentReference customerApproval = firebaseFirestore
-          .collection("customers/${requestModel.uid}/awaiting_approval")
-          .doc(requestModel.requestId);
-      DocumentReference vendorApproval = firebaseFirestore
-          .collection("vendors/${requestModel.vendorId}/awaiting_approval")
-          .doc(requestModel.requestId);
-      await customerApproval.delete();
-      await vendorApproval.delete();
-      RequestModel requestModelFinal = requestModel;
-      requestModelFinal.responseTime = Timestamp.now();
-
+      ParkHistory parkHistoryFinal = parkHistory;
+      parkHistoryFinal.responseTime = Timestamp.now();
       if (reply) {
-        requestModelFinal.status = Status.processing;
-        CollectionReference customerCollectionReference = firebaseFirestore
-            .collection("customers/${requestModel.uid}/active_park");
-        await customerCollectionReference
-            .doc(requestModel.requestId)
-            .set(requestModel.toJson());
-        CollectionReference vendorCollectionReference = firebaseFirestore
-            .collection("vendors/${requestModel.vendorId}/active_park");
-        await vendorCollectionReference
-            .doc(requestModel.requestId)
-            .set(requestModel.toJson());
+        parkHistoryFinal.status = Status.processing;
       } else {
-        requestModelFinal.status = Status.canceled;
-        CollectionReference customerCollectionReference = firebaseFirestore
-            .collection("customers/${requestModel.uid}/history");
-        await customerCollectionReference
-            .doc(requestModel.requestId)
-            .set(requestModel.toJsonForClosed());
-        CollectionReference vendorCollectionReference = firebaseFirestore
-            .collection("vendors/${requestModel.vendorId}/history");
-        await vendorCollectionReference
-            .doc(requestModel.requestId)
-            .set(requestModel.toJsonForClosed());
+        parkHistoryFinal.status = Status.canceled;
+        parkHistoryFinal.closedTime = parkHistoryFinal.responseTime;
       }
+
+      CollectionReference customerCollectionReference = firebaseFirestore
+          .collection("customers/${parkHistoryFinal.uid}/history");
+      await customerCollectionReference
+          .doc(parkHistoryFinal.requestId)
+          .update(parkHistoryFinal.toJson());
+      CollectionReference vendorCollectionReference = firebaseFirestore
+          .collection("vendors/${parkHistoryFinal.vendorId}/history");
+      await vendorCollectionReference
+          .doc(parkHistoryFinal.requestId)
+          .update(parkHistoryFinal.toJson());
       return true;
     } catch (e) {
+      debugPrint("hata" + e.toString());
       return false;
     }
   }
@@ -167,10 +128,38 @@ class AuthService implements AuthBase {
       DocumentReference customer = firebaseFirestore
           .collection("customers/${history.uid}/history")
           .doc(history.requestId);
-      await customer
-          .update({"status": "completed", "paymentId": payResult.paymentId});
+      await customer.update({
+        "status": "completed",
+        "paymentId": payResult.paymentId,
+        "rated": false
+      });
       return true;
-    }  catch (e) {
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Stream<QuerySnapshot<Object?>> getParks() {
+    return firebaseFirestore
+        .collection("customers/${firebaseAuth.currentUser!.uid}/history").orderBy("requestTime",descending: true)
+        .snapshots();
+  }
+
+  @override
+  Future<bool> ratePark(ParkHistory parkHistory, RateModel rateModel)async {
+    try{
+      DocumentReference customerDocumentReference = firebaseFirestore
+          .collection("customers/${parkHistory.uid}/history").doc(parkHistory.requestId);
+      customerDocumentReference.update({"rated":true});
+      CollectionReference vendorCollectionReference = firebaseFirestore
+          .collection("vendors/${parkHistory.vendorId}/ratings");
+      vendorCollectionReference.add(rateModel.toJson());
+      return true;
+    }catch(e){
+      debugPrint(
+        "AuthService - Exception - ratePark : ${e.toString()}",
+      );
       return false;
     }
   }

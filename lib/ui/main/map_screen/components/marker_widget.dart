@@ -21,21 +21,19 @@ class MarkerWidget extends StatelessWidget {
           right: 0,
           left: 0,
           child: Container(
-
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(4),color: vendorModel.active ? Colors.green : Colors.red,),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "İzelman",
-                  style: TextStyle(fontSize: 9),
-                ),
-                Text(
-                  vendorModel.rating.toString(),
-                  style: TextStyle(fontSize: 9),
-                ),
-              ],
+            height: 32,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              color: vendorModel.active ? Colors.green : Colors.red,
+            ),
+            child: Text(
+              vendorModel.name,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 10,
+                color: Colors.white
+              ),
             ),
           ),
         ),

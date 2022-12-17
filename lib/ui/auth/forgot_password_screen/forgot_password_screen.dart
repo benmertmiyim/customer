@@ -45,6 +45,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                           }
                           return null;
                         },
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.done,
                         decoration: InputDecoration(
                             fillColor: Colors.grey.shade100,
                             filled: true,

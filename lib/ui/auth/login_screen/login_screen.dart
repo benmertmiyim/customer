@@ -46,6 +46,8 @@ class LoginScreen extends StatelessWidget {
                           }
                           return null;
                         },
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                             fillColor: Colors.grey.shade100,
                             filled: true,
@@ -68,6 +70,8 @@ class LoginScreen extends StatelessWidget {
                           }
                           return null;
                         },
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.done,
                         decoration: InputDecoration(
                             fillColor: Colors.grey.shade100,
                             filled: true,

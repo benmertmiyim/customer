@@ -1,26 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:customer/core/model/request_model.dart';
+import 'package:customer/core/model/enums.dart';
 
 class ParkHistory {
-  final Timestamp closedTime;
+  Timestamp? closedTime;
   final Timestamp requestTime;
-  final Timestamp responseTime;
+  Timestamp? responseTime;
   final String vendorId;
   final String requestId;
   final String uid;
   final String customerName;
   final String customerImage;
   final String parkName;
+  String? paymentId;
   final double hourlyPrice;
   final double startPrice;
-  final double? totalPrice;
-  final double? totalTime;
+  double? totalPrice;
+  double? totalTime;
   Status status;
+  bool rated;
 
   ParkHistory(
-      {required this.closedTime,
+      {this.closedTime,
       required this.requestTime,
-      required this.responseTime,
+      this.responseTime,
       required this.vendorId,
       required this.requestId,
       required this.uid,
@@ -31,45 +33,116 @@ class ParkHistory {
       required this.startPrice,
       this.totalPrice,
       this.totalTime,
+      this.rated = true,
+      this.paymentId,
       required this.status});
 
-  factory ParkHistory.fromJson(Map<String, dynamic> json) {
-    try{
-      return ParkHistory(
-        closedTime: json["closedTime"] as Timestamp,
-        requestTime: json["requestTime"] as Timestamp,
-        responseTime: json["responseTime"] as Timestamp,
-        vendorId: json["vendorId"],
-        requestId: json["requestId"],
-        uid: json["uid"],
-        customerName: json["customerName"],
-        customerImage: json["customerImage"],
-        parkName: json["parkName"],
-        hourlyPrice: json["hourlyPrice"].toDouble(),
-        startPrice: json["startPrice"].toDouble(),
-        totalPrice: json["totalPrice"].toDouble(),
-        totalTime: json["totalTime"].toDouble(),
-        status: statusConvert(json["status"]),
-      );
-
-    }catch(e){
-      return ParkHistory(
-        closedTime: json["closedTime"] as Timestamp,
-        requestTime: json["requestTime"] as Timestamp,
-        responseTime: json["responseTime"] as Timestamp,
-        vendorId: json["vendorId"],
-        requestId: json["requestId"],
-        uid: json["uid"],
-        customerName: json["customerName"],
-        customerImage: json["customerImage"],
-        parkName: json["parkName"],
-        hourlyPrice: json["hourlyPrice"].toDouble(),
-        startPrice: json["startPrice"].toDouble(),
-        status: statusConvert(json["status"]),
-      );
-
-    }
+  factory ParkHistory.fromJsonForRequest(Map<String, dynamic> json) {
+    return ParkHistory(
+      requestTime: json["requestTime"] as Timestamp,
+      vendorId: json["vendorId"],
+      requestId: json["requestId"],
+      uid: json["uid"],
+      customerName: json["customerName"],
+      customerImage: json["customerImage"],
+      parkName: json["parkName"],
+      hourlyPrice: json["hourlyPrice"].toDouble(),
+      startPrice: json["startPrice"].toDouble(),
+      status: statusConvert(json["status"]),
+    );
   }
-//
 
+  factory ParkHistory.fromJsonForProcessing(Map<String, dynamic> json) {
+    return ParkHistory(
+      requestTime: json["requestTime"] as Timestamp,
+      responseTime: json["responseTime"] as Timestamp,
+      vendorId: json["vendorId"],
+      requestId: json["requestId"],
+      uid: json["uid"],
+      customerName: json["customerName"],
+      customerImage: json["customerImage"],
+      parkName: json["parkName"],
+      hourlyPrice: json["hourlyPrice"].toDouble(),
+      startPrice: json["startPrice"].toDouble(),
+      status: statusConvert(json["status"]),
+    );
+  }
+
+  factory ParkHistory.fromJsonForHistory(Map<String, dynamic> json) {
+    return ParkHistory(
+      requestTime: json["requestTime"] as Timestamp,
+      closedTime: json["closedTime"] as Timestamp,
+      responseTime: json["responseTime"] as Timestamp,
+      vendorId: json["vendorId"],
+      requestId: json["requestId"],
+      uid: json["uid"],
+      rated: json["rated"] ?? true,
+      paymentId: json["paymentId"],
+      customerName: json["customerName"],
+      customerImage: json["customerImage"],
+      parkName: json["parkName"],
+      hourlyPrice: json["hourlyPrice"].toDouble(),
+      startPrice: json["startPrice"].toDouble(),
+      totalTime: json["totalTime"].toDouble(),
+      totalPrice: json["totalPrice"].toDouble(),
+      status: statusConvert(json["status"]),
+    );
+  }
+
+  factory ParkHistory.fromJsonForCanceled(Map<String, dynamic> json) {
+    return ParkHistory(
+      requestTime: json["requestTime"] as Timestamp,
+      closedTime: json["closedTime"] as Timestamp,
+      responseTime: json["responseTime"] as Timestamp,
+      vendorId: json["vendorId"],
+      requestId: json["requestId"],
+      uid: json["uid"],
+      customerName: json["customerName"],
+      customerImage: json["customerImage"],
+      parkName: json["parkName"],
+      hourlyPrice: json["hourlyPrice"].toDouble(),
+      startPrice: json["startPrice"].toDouble(),
+      status: statusConvert(json["status"]),
+    );
+  }
+
+  factory ParkHistory.fromJsonForPay(Map<String, dynamic> json) {
+    return ParkHistory(
+      requestTime: json["requestTime"] as Timestamp,
+      closedTime: json["closedTime"] as Timestamp,
+      responseTime: json["responseTime"] as Timestamp,
+      vendorId: json["vendorId"],
+      requestId: json["requestId"],
+      uid: json["uid"],
+      customerName: json["customerName"],
+      customerImage: json["customerImage"],
+      parkName: json["parkName"],
+      hourlyPrice: json["hourlyPrice"].toDouble(),
+      startPrice: json["startPrice"].toDouble(),
+      totalTime: json["totalTime"].toDouble(),
+      totalPrice: json["totalPrice"].toDouble(),
+      status: statusConvert(json["status"]),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "closedTime": this.closedTime,
+      "requestTime": this.requestTime,
+      "responseTime": this.responseTime,
+      "vendorId": this.vendorId,
+      "requestId": this.requestId,
+      "uid": this.uid,
+      "rated": this.rated,
+      "customerName": this.customerName,
+      "customerImage": this.customerImage,
+      "parkName": this.parkName,
+      "paymentId": this.paymentId,
+      "hourlyPrice": this.hourlyPrice,
+      "startPrice": this.startPrice,
+      "totalPrice": this.totalPrice,
+      "totalTime": this.totalTime,
+      "status": statusConvert2(this.status),
+    };
+  }
 }
