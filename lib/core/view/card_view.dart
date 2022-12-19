@@ -41,12 +41,6 @@ class CardView with ChangeNotifier implements CardBase {
     getCards();
   }
 
-  void logout(){
-    getCardsResultModel = null;
-    cardUserKey = null;
-    _selectedCard = null;
-  }
-
   @override
   Future<Object?> getCards() async {
     try {

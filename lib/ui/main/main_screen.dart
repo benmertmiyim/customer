@@ -5,6 +5,7 @@ import 'package:customer/ui/main/notification_screen/notification_screen.dart';
 import 'package:customer/ui/main/profile_screen/profile_screen.dart';
 import 'package:customer/ui/main/qr_screen/qr_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -31,7 +32,10 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(title),
+        title: SvgPicture.asset(
+          "assets/images/parkin_logo.svg",
+          height: 40,
+        ),
         centerTitle: true,
         actions: [
           IconButton(

@@ -1,5 +1,6 @@
 import 'package:customer/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -41,16 +42,15 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Container(),
             Column(
-              children: const [
-                Text(
-                  title,
-                  style:
-                  TextStyle(fontWeight: FontWeight.bold,fontSize: 32),
-                ),
-                SizedBox(
+              children: [
+              SvgPicture.asset(
+                  "assets/images/parkin_logo.svg",
+                  width: 250,
+              ),
+                const SizedBox(
                   height: 16,
                 ),
-                CircularProgressIndicator(),
+                const CircularProgressIndicator(),
               ],
             ),
             Padding(

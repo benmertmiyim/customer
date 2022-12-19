@@ -12,14 +12,16 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthView authView = Provider.of<AuthView>(context);
-    VendorView vendorView = Provider.of<VendorView>(context);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
+      primary: true,
       children: [
         const SliderWidget(),
-        authView.activePark != null ? ActivePark(parkHistory: authView.activePark!,):Container(),
+        authView.activePark != null
+            ? ActivePark(
+                parkHistory: authView.activePark!,
+              )
+            : Container(),
         const NotRatedWidget(),
       ],
     );

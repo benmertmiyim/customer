@@ -111,10 +111,8 @@ class AuthView with ChangeNotifier implements AuthBase {
   @override
   Future signOut() async {
     try {
-      authProcess = AuthProcess.busy;
       await authService.signOut();
       customer = null;
-      authState = AuthState.intro;
       parkListener!.cancel();
       debugPrint(
         "AuthView - signOut : $customer",
@@ -123,8 +121,6 @@ class AuthView with ChangeNotifier implements AuthBase {
       debugPrint(
         "AuthView - Exception - signOut : ${e.toString()}",
       );
-    } finally {
-      authProcess = AuthProcess.idle;
     }
     return customer;
   }

@@ -42,7 +42,6 @@ class IntroductionAnimationScreenState
   Widget build(BuildContext context) {
     authView = Provider.of<AuthView>(context);
     return Scaffold(
-      backgroundColor: const Color(0xffF7EBE1),
       body: ClipRect(
         child: Stack(
           children: [

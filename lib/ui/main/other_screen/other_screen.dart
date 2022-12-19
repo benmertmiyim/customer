@@ -1,5 +1,6 @@
 import 'package:customer/ui/main/profile_screen/components/tile_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class OtherScreen extends StatefulWidget {
@@ -41,14 +42,17 @@ class _OtherScreenState extends State<OtherScreen> {
           TileWidget(title: "KVKK",onClick: (){},),
           TileWidget(title: "Privacy Policy",onClick: (){},),
           TileWidget(title: "User Agreement",onClick: (){},),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                "Version ${packageInfo.version}",
-              ),
+          const SizedBox(height: 16,),
+          Column(children: [
+            SvgPicture.asset(
+              "assets/images/parkin_logo.svg",
+              width: 128,
             ),
-          ),
+            const SizedBox(height: 8,),
+            Text(
+              "Version ${packageInfo.version}",
+            ),
+          ],),
         ],
       ),
     );

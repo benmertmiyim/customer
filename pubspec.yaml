@@ -13,6 +13,7 @@ dependencies:
   firebase_core: ^1.24.0
   firebase_auth: ^3.11.2
   cloud_functions: ^3.3.9
+  flutter_svg: ^1.1.6
   cloud_firestore: ^3.5.1
   stop_watch_timer: ^2.0.0
   rflutter_alert: ^2.0.4
@@ -21,8 +22,6 @@ dependencies:
   flutter_rating_stars: ^1.0.3+4
   geolocator: ^9.0.2
   custom_map_markers: ^0.0.2+1
-  sliding_up_panel: ^2.0.0+1
-  restart_app: ^1.1.1
   google_nav_bar: ^5.0.6
   line_icons: ^2.0.1
   qr_flutter: ^4.0.0
@@ -31,7 +30,6 @@ dependencies:
   carousel_slider: ^4.1.1
   cached_network_image: ^3.2.2
   intl: ^0.17.0
-  flutter_slidable: ^2.0.0
   pinput: ^2.2.12
   animations: ^2.0.3
 dev_dependencies:

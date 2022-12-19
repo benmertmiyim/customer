@@ -1,6 +1,5 @@
 import 'package:customer/core/view/auth_view.dart';
-import 'package:customer/core/view/card_view.dart';
-import 'package:customer/core/view/notification_view.dart';
+import 'package:customer/main.dart';
 import 'package:customer/ui/auth/verify_phone_screen/verify_phone_screen.dart';
 import 'package:customer/ui/components/went_wrong_widget.dart';
 import 'package:customer/ui/main/history_screen/history_screen.dart';
@@ -17,8 +16,6 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthView authView = Provider.of<AuthView>(context);
-    CardView cardView = Provider.of<CardView>(context);
-    NotificationView notificationView = Provider.of<NotificationView>(context);
 
     if (authView.authProcess == AuthProcess.idle) {
       if (authView.customer != null) {
@@ -60,7 +57,6 @@ class ProfileScreen extends StatelessWidget {
                     );
                   },
                 ),
-
                 TileWidget(
                   title: "Payment Methods",
                   onClick: () {
@@ -89,38 +85,16 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 TileWidget(
                   title: "Logout",
-                  onClick: () {
-                    Alert(
-                      context: context,
-                      type: AlertType.warning,
-                      title: "Logout",
-                      desc: "Are you sure, do you want to logout?",
-                      buttons: [
-                        DialogButton(
-                          color: Colors.red,
-                          child: const Text(
-                            "Yes",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                            authView.signOut();
-                            notificationView.logout();
-                            cardView.logout();
-                          },
+                  onClick: () async {
+                    Navigator.pop(context);
+                    await authView.signOut().then((value) {
+                      Navigator.of(context,rootNavigator: true).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (_) => const MyApp(),
                         ),
-                        DialogButton(
-                          color: Colors.green,
-                          child: const Text(
-                            "No",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        )
-                      ],
-                    ).show();
+                        (_) => true,
+                      );
+                    });
                   },
                   isLogout: true,
                 ),

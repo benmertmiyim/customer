@@ -21,8 +21,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  runApp(const MyApp());
+  runApp(const MyApp(key: Key("asdasd"),),);
 }
 
 class MyApp extends StatelessWidget {
